@@ -171,7 +171,7 @@ module GadgetUnits
             m_cgs   = m_unit / hpar
             t_unit  = l_unit / v_unit
             t_s     = t_unit * sqrt(a_scale) / hpar  # in sec
-            t_Myr   = t_s
+            t_Myr   = t_s / 3.15576e13
 
             E_cgs = m_cgs * v_cgs^2
             E_eV = E_cgs
