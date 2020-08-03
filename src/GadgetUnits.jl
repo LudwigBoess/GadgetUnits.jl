@@ -165,6 +165,10 @@ module GadgetUnits
                                 γ_th::Float64=5.0/3.0, γ_CR::Float64=4.0/3.0, xH::Float64=0.76)
 
 
+            # some basic constants
+            kB = 1.38066e-16
+            mp = 1.6726e-24
+
             # convert comoving output to physical units
             x_cgs   = l_unit * a_scale / hpar
             v_cgs   = v_unit * sqrt(a_scale)
@@ -184,7 +188,7 @@ module GadgetUnits
             yhelium = ( 1.0 - xH ) / ( 4.0 * xH )
             mean_mol_weight = (1.0 + 4.0 * yhelium) / (1.0 + 3.0 * yhelium + 1.0)
 
-            T_cgs = (γ_th - 1.0) * v_cgs^2 * mean_mol_weight
+            T_cgs = (γ_th - 1.0) * v_cgs^2 * mean_mol_weight * mp / kB
 
             P_th_cgs = a_scale^(-3) * E_cgs / l_unit^3 * hpar^2
             P_CR_cgs = a_scale^(-4) * E_cgs / l_unit^3 * hpar^2
