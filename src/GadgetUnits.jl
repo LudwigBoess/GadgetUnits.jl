@@ -202,6 +202,10 @@ module GadgetUnits
             kB = 1.38066e-16
             mp = 1.6726e-24
 
+            # some basic constants
+            kB = 1.38066e-16
+            mp = 1.6726e-24
+
             # convert comoving output to physical units
             x_cgs   = l_unit * a_scale / hpar
             v_cgs   = v_unit * sqrt(a_scale)
