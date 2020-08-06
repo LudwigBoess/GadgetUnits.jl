@@ -44,6 +44,23 @@ module GadgetUnits
     - `γ_CR::Float64 = 4.0/3.0`: Adiabatic index of cosmic ray component.
     - `xH::Float64 = 0.76`:      Hydrogen fraction of the simulation, if run without chemical model.
 
+    # Fields
+    | Name                     | Meaning                        |
+    |: ----------------------- |:-----------------------------  |
+    | `x_cgs::Float64`         | position in cm                 |
+    | `v_cgs::Float64`         | velocity in cm/s               |
+    | `m_cgs::Float64`         | mass in g                      |
+    | `t_s::Float64`           | time in sec                    |
+    | `t_Myr::Float64`         | time in Myr                    |
+    | `E_cgs::Float64`         | energy in erg                  |
+    | `E_eV::Float64`          | energy in eV                   |
+    | `B_cgs::Float64`         | magnetic field in Gauss        |
+    | `rho_cgs::Float64`       | density in ``g/cm^3``          |
+    | `rho_ncm3::Float64`      | density in ``N_p/cm^3``        |
+    | `T_K::Float64`           | temperature in K               |
+    | `P_th_cgs::Float64`      | thermal pressure in Ba         |
+    | `P_CR_cgs::Float64`      | cosmic ray pressure in Ba      |
+
     """
     struct GadgetPhysicalUnits
 
@@ -137,6 +154,23 @@ module GadgetUnits
     - `γ_CR::Float64 = 4.0/3.0`: Adiabatic index of cosmic ray component.
     - `xH::Float64 = 0.76`:      Hydrogen fraction of the simulation, if run without chemical model.
 
+    # Fields
+    | Name                     | Meaning                        |
+    |: ----------------------- |:-----------------------------  |
+    | `x_cgs::Float64`         | position in cm                 |
+    | `v_cgs::Float64`         | velocity in cm/s               |
+    | `m_cgs::Float64`         | mass in g                      |
+    | `t_s::Float64`           | time in sec                    |
+    | `t_Myr::Float64`         | time in Myr                    |
+    | `E_cgs::Float64`         | energy in erg                  |
+    | `E_eV::Float64`          | energy in eV                   |
+    | `B_cgs::Float64`         | magnetic field in Gauss        |
+    | `rho_cgs::Float64`       | density in ``g/cm^3``          |
+    | `rho_ncm3::Float64`      | density in ``N_p/cm^3``        |
+    | `T_K::Float64`           | temperature in K               |
+    | `P_th_cgs::Float64`      | thermal pressure in Ba         |
+    | `P_CR_cgs::Float64`      | cosmic ray pressure in Ba      |
+
     """
     struct GadgetPhysical
 
@@ -164,6 +198,9 @@ module GadgetUnits
                                 a_scale::Float64=1.0, hpar::Float64=1.0,
                                 γ_th::Float64=5.0/3.0, γ_CR::Float64=4.0/3.0, xH::Float64=0.76)
 
+            # some basic constants
+            kB = 1.38066e-16
+            mp = 1.6726e-24
 
             # convert comoving output to physical units
             x_cgs   = l_unit * a_scale / hpar
@@ -184,7 +221,7 @@ module GadgetUnits
             yhelium = ( 1.0 - xH ) / ( 4.0 * xH )
             mean_mol_weight = (1.0 + 4.0 * yhelium) / (1.0 + 3.0 * yhelium + 1.0)
 
-            T_cgs = (γ_th - 1.0) * v_cgs^2 * mean_mol_weight
+            T_cgs = (γ_th - 1.0) * v_cgs^2 * mean_mol_weight * mp / kB
 
             P_th_cgs = a_scale^(-3) * E_cgs / l_unit^3 * hpar^2
             P_CR_cgs = a_scale^(-4) * E_cgs / l_unit^3 * hpar^2
