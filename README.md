@@ -1,6 +1,6 @@
-[![The MIT License](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE.md)
-[![Build Status](https://travis-ci.org/LudwigBoess/GadgetUnits.jl.svg?branch=master)](https://travis-ci.org/LudwigBoess/GadgetUnits.jl)
-[![codecov.io](https://codecov.io/gh/LudwigBoess/GadgetUnits.jl/coverage.svg?branch=master)](https://codecov.io/gh/LudwigBoess/GadgetUnits.jl?branch=master)
+| **Documentation**                                                 | **Build Status**                                                                                | **Licence**                                                                                |
+|:-----------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:| :-----------------------------------------------------------------------------------------------:|
+[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://LudwigBoess.github.io/GadgetUnits.jl/stable) [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://LudwigBoess.github.io/GadgetUnits.jl/dev) | [![Build Status](https://travis-ci.org/LudwigBoess/GadgetUnits.jl.svg?branch=master)](https://travis-ci.org/LudwigBoess/GadgetUnits.jl) [![codecov.io](https://codecov.io/gh/LudwigBoess/GadgetUnits.jl/coverage.svg?branch=master)](https://codecov.io/gh/LudwigBoess/GadgetUnits.jl?branch=master) | [![The MIT License](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE.md) |
 
 # GadgetUnits.jl
 
