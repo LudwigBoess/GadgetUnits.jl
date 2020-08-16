@@ -2,6 +2,18 @@
 
 This package is a subproject of [GadJet.jl](https://github.com/LudwigBoess/GadJet.jl) and provides some basic unit conversion functionality to work with the SPH code "Gadget" by Volker Springel (doi:10.1111/j.1365-2966.2005.09655.x).
 
+Installing
+==========
+
+As usual with Julia you can install the package via the internal package manager, so via the REPL:
+
+```@example
+julia> ]
+pkg> add GadgetUnits
+```
+
+Now you should be good to go!
+
 Unit Conversion
 ===============
 
