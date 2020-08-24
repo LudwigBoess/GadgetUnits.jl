@@ -77,7 +77,7 @@ module GadgetUnits
         B_cgs::typeof(1.0u"Gs")         # magnetic field in Gauss
 
         rho_cgs::typeof(1.0u"g/cm^3")   # density in g/cm^3
-        rho_ncm3::typeof(1.0u"n_e")     # density in N_p/cm^3
+        rho_ncm3::typeof(1.0u"n_p")     # density in N_p/cm^3
 
         T_K::typeof(1.0u"K")            # temperature in K
 
@@ -202,6 +202,13 @@ module GadgetUnits
             kB = 1.38066e-16
             mp = 1.6726e-24
 
+            yhelium = ( 1.0 - xH ) / ( 4.0 * xH )
+            mean_mol_weight = (1.0 + 4.0 * yhelium) / (1.0 + 3.0 * yhelium + 1.0)
+
+            n2ne =  (  xH + 0.5 * ( 1.0 - xH ) ) / 
+                    ( 2.0 * xH + 0.75 * ( 1.0 - xH ) )       # conversion n_pat -> n_electrons
+            umu  =  4.0 / ( 5.0 * xH + 3.0 )                 # mean molucular weight in hydr. mass
+
             # convert comoving output to physical units
             x_cgs   = l_unit * a_scale / hpar
             v_cgs   = v_unit * sqrt(a_scale)
@@ -216,11 +223,9 @@ module GadgetUnits
             B_cgs = 1.0   # gadget outputs in cgs
 
             rho_cgs = m_unit/l_unit^3 * hpar^2 / a_scale^3
-            rho_ncm3 = rho_cgs
+            rho_ncm3 = rho_cgs * n2ne/( umu * mp )
 
-            yhelium = ( 1.0 - xH ) / ( 4.0 * xH )
-            mean_mol_weight = (1.0 + 4.0 * yhelium) / (1.0 + 3.0 * yhelium + 1.0)
-
+        
             T_cgs = (γ_th - 1.0) * v_cgs^2 * mean_mol_weight * mp / kB
 
             P_th_cgs = a_scale^(-3) * E_cgs / l_unit^3 * hpar^2
