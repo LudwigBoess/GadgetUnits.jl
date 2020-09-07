@@ -51,9 +51,10 @@ struct GadgetPhysicalUnits
     B_cgs::typeof(1.0u"Gs")         # magnetic field in Gauss
 
     rho_cgs::typeof(1.0u"g/cm^3")   # density in g/cm^3
-    rho_ncm3::typeof(1.0u"n_e")     # density in N_p/cm^3
+    rho_ncm3::typeof(1.0u"n_p")     # density in N_p/cm^3
 
     T_K::typeof(1.0u"K")            # temperature in K
+    T_eV::typeof(1.0u"eV")          # temperature in eV
 
     P_th_cgs::typeof(1.0u"Ba")      # thermal pressure in Ba
     P_CR_cgs::typeof(1.0u"Ba")      # cosmic ray pressure in Ba
