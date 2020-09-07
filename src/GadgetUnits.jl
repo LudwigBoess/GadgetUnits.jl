@@ -58,6 +58,7 @@ module GadgetUnits
     | `rho_cgs::Float64`       | density in ``g/cm^3``          |
     | `rho_ncm3::Float64`      | density in ``N_p/cm^3``        |
     | `T_K::Float64`           | temperature in K               |
+    | `T_eV::Float64`          | temperature in eV              |
     | `P_th_cgs::Float64`      | thermal pressure in Ba         |
     | `P_CR_cgs::Float64`      | cosmic ray pressure in Ba      |
 
@@ -80,6 +81,7 @@ module GadgetUnits
         rho_ncm3::typeof(1.0u"n_p")     # density in N_p/cm^3
 
         T_K::typeof(1.0u"K")            # temperature in K
+        T_eV::typeof(1.0u"eV")            # temperature in eV
 
         P_th_cgs::typeof(1.0u"Ba")      # thermal pressure in Ba
         P_CR_cgs::typeof(1.0u"Ba")      # cosmic ray pressure in Ba
@@ -113,6 +115,7 @@ module GadgetUnits
             mean_mol_weight = (1.0 + 4.0 * yhelium) / (1.0 + 3.0 * yhelium + 1.0)
 
             T_cgs = (γ_th - 1.0) * v_cgs^2 * 1.0u"mp" * mean_mol_weight / 1.0u"k" |> u"K"
+            T_eV  = T_cgs * 1.0u"k" |> u"eV"
 
             P_th_cgs = a_scale^(-3) * E_cgs / l_unit^3 * hpar^2  |> u"Ba"
             P_CR_cgs = a_scale^(-4) * E_cgs / l_unit^3 * hpar^2  |> u"Ba"
@@ -122,7 +125,7 @@ module GadgetUnits
                 E_cgs, E_eV,
                 B_cgs,
                 rho_cgs, rho_ncm3,
-                T_cgs,
+                T_cgs, T_eV,
                 P_th_cgs,
                 P_CR_cgs
                 )
@@ -168,6 +171,7 @@ module GadgetUnits
     | `rho_cgs::Float64`       | density in ``g/cm^3``          |
     | `rho_ncm3::Float64`      | density in ``N_p/cm^3``        |
     | `T_K::Float64`           | temperature in K               |
+    | `T_eV::Float64`          | temperature in eV              |
     | `P_th_cgs::Float64`      | thermal pressure in Ba         |
     | `P_CR_cgs::Float64`      | cosmic ray pressure in Ba      |
 
@@ -190,6 +194,7 @@ module GadgetUnits
         rho_ncm3::Float64      # density in N_p/cm^3
 
         T_K::Float64           # temperature in K
+        T_eV::Float64          # temperature in eV
 
         P_th_cgs::Float64      # thermal pressure in Ba
         P_CR_cgs::Float64      # cosmic ray pressure in Ba
@@ -199,8 +204,9 @@ module GadgetUnits
                                 γ_th::Float64=5.0/3.0, γ_CR::Float64=4.0/3.0, xH::Float64=0.76)
 
             # some basic constants
-            kB = 1.38066e-16
-            mp = 1.6726e-24
+            kB      = 1.38066e-16
+            mp      = 1.6726e-24
+            eV2cgs  = 1.602e-12
 
             yhelium = ( 1.0 - xH ) / ( 4.0 * xH )
             mean_mol_weight = (1.0 + 4.0 * yhelium) / (1.0 + 3.0 * yhelium + 1.0)
@@ -227,6 +233,7 @@ module GadgetUnits
 
         
             T_cgs = (γ_th - 1.0) * v_cgs^2 * mean_mol_weight * mp / kB
+            T_eV  = T_cgs * kB / eV2cgs
 
             P_th_cgs = a_scale^(-3) * E_cgs / l_unit^3 * hpar^2
             P_CR_cgs = a_scale^(-4) * E_cgs / l_unit^3 * hpar^2
@@ -236,7 +243,7 @@ module GadgetUnits
                 E_cgs, E_eV,
                 B_cgs,
                 rho_cgs, rho_ncm3,
-                T_cgs,
+                T_cgs, T_eV,
                 P_th_cgs,
                 P_CR_cgs
                 )
