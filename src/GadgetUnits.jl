@@ -8,18 +8,6 @@ module GadgetUnits
     using Unitful
     using UnitfulAstro
 
-    Unitful.register(@__MODULE__)
-    # set up proton and electron number density unit
-    @unit n_p "N_p/cm^3" ProtonNumberDensity 1u"mp/cm^3" true
-    @unit n_e "N_e/cm^3" ElectronNumberDensity 1u"me/cm^3" true
-    @unit Fr "Fr" Statcoulomb 1.0u"cm^(3/2)*g^(1/2)/s" true
-
-    # needed by unitful
-    const localunits = Unitful.basefactors
-    function __init__()
-        merge!(Unitful.basefactors, localunits)
-    end
-
 
     """
         GadgetPhysicalUnits(l_unit::Float64=3.085678e21, m_unit::Float64=1.989e43, v_unit::Float64=1.e5;
@@ -48,15 +36,18 @@ module GadgetUnits
     | Name                     | Meaning                        |
     |: ----------------------- |:-----------------------------  |
     | `x_cgs::Float64`         | position in cm                 |
+    | `x_kpc::Float64`         | position in kpc                |
     | `v_cgs::Float64`         | velocity in cm/s               |
+    | `v_kms::Float64`         | velocity in km/s               |
     | `m_cgs::Float64`         | mass in g                      |
+    | `m_msun::Float64`        | mass in Msun                   |
     | `t_s::Float64`           | time in sec                    |
     | `t_Myr::Float64`         | time in Myr                    |
     | `E_cgs::Float64`         | energy in erg                  |
     | `E_eV::Float64`          | energy in eV                   |
     | `B_cgs::Float64`         | magnetic field in Gauss        |
     | `rho_cgs::Float64`       | density in ``g/cm^3``          |
-    | `rho_ncm3::Float64`      | density in ``N_p/cm^3``        |
+    | `rho_ncm3::Float64`      | density in ``n_p/cm^3``        |
     | `T_K::Float64`           | temperature in K               |
     | `T_eV::Float64`          | temperature in eV              |
     | `P_th_cgs::Float64`      | thermal pressure in Ba         |
@@ -66,8 +57,13 @@ module GadgetUnits
     struct GadgetPhysicalUnits
 
         x_cgs::typeof(1.0u"cm")         # position in cm
+        x_kpc::typeof(1.0u"kpc")        # position in kpc
+
         v_cgs::typeof(1.0u"cm/s")       # velocity in cm/s
+        v_kms::typeof(1.0u"km/s")       # velocity in km/s
+
         m_cgs::typeof(1.0u"g")          # mass in g
+        m_msun::typeof(1.0u"Msun")      # mass in Msun
 
         t_s::typeof(1.0u"s")            # time in sec
         t_Myr::typeof(1.0u"Myr")        # time in Myr
@@ -78,13 +74,13 @@ module GadgetUnits
         B_cgs::typeof(1.0u"Gs")         # magnetic field in Gauss
 
         rho_cgs::typeof(1.0u"g/cm^3")   # density in g/cm^3
-        rho_ncm3::typeof(1.0u"n_p")     # density in N_p/cm^3
+        rho_ncm3::typeof(1.0u"cm^-3")     # density in mp/cm^3
 
         T_K::typeof(1.0u"K")            # temperature in K
         T_eV::typeof(1.0u"eV")            # temperature in eV
 
-        P_th_cgs::typeof(1.0u"Ba")      # thermal pressure in Ba
-        P_CR_cgs::typeof(1.0u"Ba")      # cosmic ray pressure in Ba
+        P_th_cgs::typeof(1.0u"erg/cm^3")      # thermal pressure in Ba
+        P_CR_cgs::typeof(1.0u"erg/cm^3")      # cosmic ray pressure in Ba
 
         function GadgetPhysicalUnits(l_unit::Float64=3.085678e21, m_unit::Float64=1.989e43, v_unit::Float64=1.e5;
                                     a_scale::Float64=1.0, hpar::Float64=1.0,
@@ -97,8 +93,14 @@ module GadgetUnits
 
             # convert comoving output to physical units
             x_cgs   = l_unit * a_scale / hpar
+            x_kpc   = x_cgs |> u"kpc"
+
             v_cgs   = v_unit * sqrt(a_scale)
+            v_kms   = v_cgs |> u"km/s"
+
             m_cgs   = m_unit / hpar
+            m_msun  = m_cgs |> u"Msun"
+
             t_unit  = l_unit / v_unit
             t_s     = t_unit * sqrt(a_scale) / hpar  # in sec
             t_Myr   = t_s |> u"Myr"
@@ -109,7 +111,16 @@ module GadgetUnits
             B_cgs = 1.0u"Gs"    # gadget outputs in cgs
 
             rho_cgs = m_unit/l_unit^3 * hpar^2 / a_scale^3
-            rho_ncm3 = rho_cgs |> u"n_p"
+
+            yhelium = ( 1.0 - xH ) / ( 4.0 * xH )
+            mean_mol_weight = (1.0 + 4.0 * yhelium) / (1.0 + 3.0 * yhelium + 1.0)
+
+            n2ne =  (  xH + 0.5 * ( 1.0 - xH ) ) / 
+                    ( 2.0 * xH + 0.75 * ( 1.0 - xH ) )       # conversion n_pat -> n_electrons
+            umu  =  4.0 / ( 5.0 * xH + 3.0 )                 # mean molucular weight in hydr. mass
+
+            rho_ncm3 = rho_cgs * n2ne/( umu * 1.0u"mp" ) |> u"cm^-3"
+            #rho_ncm3 = rho_cgs |> u"n_p"
 
             yhelium = ( 1.0 - xH ) / ( 4.0 * xH )
             mean_mol_weight = (1.0 + 4.0 * yhelium) / (1.0 + 3.0 * yhelium + 1.0)
@@ -117,10 +128,12 @@ module GadgetUnits
             T_cgs = (γ_th - 1.0) * v_cgs^2 * 1.0u"mp" * mean_mol_weight / 1.0u"k" |> u"K"
             T_eV  = T_cgs * 1.0u"k" |> u"eV"
 
-            P_th_cgs = a_scale^(-3) * E_cgs / l_unit^3 * hpar^2  |> u"Ba"
-            P_CR_cgs = a_scale^(-4) * E_cgs / l_unit^3 * hpar^2  |> u"Ba"
+            P_th_cgs = a_scale^(-3) * E_cgs / l_unit^3 * hpar^2  |> u"erg/cm^3"
+            P_CR_cgs = a_scale^(-4) * E_cgs / l_unit^3 * hpar^2  |> u"erg/cm^3"
 
-            new(x_cgs, v_cgs, m_cgs,
+            new(x_cgs, x_kpc,
+                v_cgs, v_kms,
+                m_cgs, m_msun,
                 t_s, t_Myr,
                 E_cgs, E_eV,
                 B_cgs,
@@ -161,15 +174,18 @@ module GadgetUnits
     | Name                     | Meaning                        |
     |: ----------------------- |:-----------------------------  |
     | `x_cgs::Float64`         | position in cm                 |
+    | `x_kpc::Float64`         | position in kpc                |
     | `v_cgs::Float64`         | velocity in cm/s               |
+    | `v_kms::Float64`         | velocity in km/s               |
     | `m_cgs::Float64`         | mass in g                      |
+    | `m_msun::Float64`        | mass in Msun                   |
     | `t_s::Float64`           | time in sec                    |
     | `t_Myr::Float64`         | time in Myr                    |
     | `E_cgs::Float64`         | energy in erg                  |
     | `E_eV::Float64`          | energy in eV                   |
     | `B_cgs::Float64`         | magnetic field in Gauss        |
     | `rho_cgs::Float64`       | density in ``g/cm^3``          |
-    | `rho_ncm3::Float64`      | density in ``N_p/cm^3``        |
+    | `rho_ncm3::Float64`      | density in ``n_p/cm^3``        |
     | `T_K::Float64`           | temperature in K               |
     | `T_eV::Float64`          | temperature in eV              |
     | `P_th_cgs::Float64`      | thermal pressure in Ba         |
@@ -179,8 +195,13 @@ module GadgetUnits
     struct GadgetPhysical
 
         x_cgs::Float64         # position in cm
+        x_kpc::Float64         # position in kpc
+
         v_cgs::Float64         # velocity in cm/s
+        v_kms::Float64         # velocity in km/s
+
         m_cgs::Float64         # mass in g
+        m_msun::Float64        # mass in Msun
 
         t_s::Float64           # time in sec
         t_Myr::Float64         # time in Myr
@@ -238,7 +259,9 @@ module GadgetUnits
             P_th_cgs = a_scale^(-3) * E_cgs / l_unit^3 * hpar^2
             P_CR_cgs = a_scale^(-4) * E_cgs / l_unit^3 * hpar^2
 
-            new(x_cgs, v_cgs, m_cgs,
+            new(x_cgs, x_cgs/3.085678e21, 
+                v_cgs, v_cgs*1.e-5,
+                m_cgs, m_cgs/1.989e43,
                 t_s, t_Myr,
                 E_cgs, E_eV,
                 B_cgs,
