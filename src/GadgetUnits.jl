@@ -48,8 +48,11 @@ module GadgetUnits
     | Name                     | Meaning                        |
     |: ----------------------- |:-----------------------------  |
     | `x_cgs::Float64`         | position in cm                 |
+    | `x_kpc::Float64`         | position in kpc                |
     | `v_cgs::Float64`         | velocity in cm/s               |
+    | `v_kms::Float64`         | velocity in km/s               |
     | `m_cgs::Float64`         | mass in g                      |
+    | `m_msun::Float64`        | mass in Msun                   |
     | `t_s::Float64`           | time in sec                    |
     | `t_Myr::Float64`         | time in Myr                    |
     | `E_cgs::Float64`         | energy in erg                  |
@@ -66,8 +69,13 @@ module GadgetUnits
     struct GadgetPhysicalUnits
 
         x_cgs::typeof(1.0u"cm")         # position in cm
+        x_kpc::typeof(1.0u"kpc")        # position in kpc
+
         v_cgs::typeof(1.0u"cm/s")       # velocity in cm/s
+        v_kms::typeof(1.0u"km/s")       # velocity in km/s
+
         m_cgs::typeof(1.0u"g")          # mass in g
+        m_msun::typeof(1.0u"Msun")      # mass in Msun
 
         t_s::typeof(1.0u"s")            # time in sec
         t_Myr::typeof(1.0u"Myr")        # time in Myr
@@ -97,8 +105,14 @@ module GadgetUnits
 
             # convert comoving output to physical units
             x_cgs   = l_unit * a_scale / hpar
+            x_kpc   = x_cgs |> u"kpc"
+
             v_cgs   = v_unit * sqrt(a_scale)
+            v_kms   = v_cgs |> u"km/s"
+
             m_cgs   = m_unit / hpar
+            m_msun  = m_cgs |> u"Msun"
+
             t_unit  = l_unit / v_unit
             t_s     = t_unit * sqrt(a_scale) / hpar  # in sec
             t_Myr   = t_s |> u"Myr"
@@ -120,7 +134,9 @@ module GadgetUnits
             P_th_cgs = a_scale^(-3) * E_cgs / l_unit^3 * hpar^2  |> u"Ba"
             P_CR_cgs = a_scale^(-4) * E_cgs / l_unit^3 * hpar^2  |> u"Ba"
 
-            new(x_cgs, v_cgs, m_cgs,
+            new(x_cgs, x_kpc,
+                v_cgs, v_kms,
+                m_cgs, m_msun,
                 t_s, t_Myr,
                 E_cgs, E_eV,
                 B_cgs,
@@ -161,8 +177,11 @@ module GadgetUnits
     | Name                     | Meaning                        |
     |: ----------------------- |:-----------------------------  |
     | `x_cgs::Float64`         | position in cm                 |
+    | `x_kpc::Float64`         | position in kpc                |
     | `v_cgs::Float64`         | velocity in cm/s               |
+    | `v_kms::Float64`         | velocity in km/s               |
     | `m_cgs::Float64`         | mass in g                      |
+    | `m_msun::Float64`        | mass in Msun                   |
     | `t_s::Float64`           | time in sec                    |
     | `t_Myr::Float64`         | time in Myr                    |
     | `E_cgs::Float64`         | energy in erg                  |
@@ -179,8 +198,13 @@ module GadgetUnits
     struct GadgetPhysical
 
         x_cgs::Float64         # position in cm
+        x_kpc::Float64         # position in kpc
+
         v_cgs::Float64         # velocity in cm/s
+        v_kms::Float64         # velocity in km/s
+
         m_cgs::Float64         # mass in g
+        m_msun::Float64        # mass in Msun
 
         t_s::Float64           # time in sec
         t_Myr::Float64         # time in Myr
@@ -238,7 +262,9 @@ module GadgetUnits
             P_th_cgs = a_scale^(-3) * E_cgs / l_unit^3 * hpar^2
             P_CR_cgs = a_scale^(-4) * E_cgs / l_unit^3 * hpar^2
 
-            new(x_cgs, v_cgs, m_cgs,
+            new(x_cgs, x_cgs/3.085678e21, 
+                v_cgs, v_cgs*1.e-5,
+                m_cgs, m_cgs/1.989e43,
                 t_s, t_Myr,
                 E_cgs, E_eV,
                 B_cgs,
