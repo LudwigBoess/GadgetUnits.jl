@@ -74,13 +74,13 @@ module GadgetUnits
         B_cgs::typeof(1.0u"Gs")         # magnetic field in Gauss
 
         rho_cgs::typeof(1.0u"g/cm^3")   # density in g/cm^3
-        rho_ncm3::typeof(1.0u"mp/cm^3")     # density in mp/cm^3
+        rho_ncm3::typeof(1.0u"cm^-3")     # density in mp/cm^3
 
         T_K::typeof(1.0u"K")            # temperature in K
         T_eV::typeof(1.0u"eV")            # temperature in eV
 
-        P_th_cgs::typeof(1.0u"Ba")      # thermal pressure in Ba
-        P_CR_cgs::typeof(1.0u"Ba")      # cosmic ray pressure in Ba
+        P_th_cgs::typeof(1.0u"erg/cm^3")      # thermal pressure in Ba
+        P_CR_cgs::typeof(1.0u"erg/cm^3")      # cosmic ray pressure in Ba
 
         function GadgetPhysicalUnits(l_unit::Float64=3.085678e21, m_unit::Float64=1.989e43, v_unit::Float64=1.e5;
                                     a_scale::Float64=1.0, hpar::Float64=1.0,
@@ -111,7 +111,16 @@ module GadgetUnits
             B_cgs = 1.0u"Gs"    # gadget outputs in cgs
 
             rho_cgs = m_unit/l_unit^3 * hpar^2 / a_scale^3
-            rho_ncm3 = rho_cgs |> u"mp/cm^3"
+
+            yhelium = ( 1.0 - xH ) / ( 4.0 * xH )
+            mean_mol_weight = (1.0 + 4.0 * yhelium) / (1.0 + 3.0 * yhelium + 1.0)
+
+            n2ne =  (  xH + 0.5 * ( 1.0 - xH ) ) / 
+                    ( 2.0 * xH + 0.75 * ( 1.0 - xH ) )       # conversion n_pat -> n_electrons
+            umu  =  4.0 / ( 5.0 * xH + 3.0 )                 # mean molucular weight in hydr. mass
+
+            rho_ncm3 = rho_cgs * n2ne/( umu * 1.0u"mp" ) |> u"cm^-3"
+            #rho_ncm3 = rho_cgs |> u"n_p"
 
             yhelium = ( 1.0 - xH ) / ( 4.0 * xH )
             mean_mol_weight = (1.0 + 4.0 * yhelium) / (1.0 + 3.0 * yhelium + 1.0)
@@ -119,8 +128,8 @@ module GadgetUnits
             T_cgs = (γ_th - 1.0) * v_cgs^2 * 1.0u"mp" * mean_mol_weight / 1.0u"k" |> u"K"
             T_eV  = T_cgs * 1.0u"k" |> u"eV"
 
-            P_th_cgs = a_scale^(-3) * E_cgs / l_unit^3 * hpar^2  |> u"Ba"
-            P_CR_cgs = a_scale^(-4) * E_cgs / l_unit^3 * hpar^2  |> u"Ba"
+            P_th_cgs = a_scale^(-3) * E_cgs / l_unit^3 * hpar^2  |> u"erg/cm^3"
+            P_CR_cgs = a_scale^(-4) * E_cgs / l_unit^3 * hpar^2  |> u"erg/cm^3"
 
             new(x_cgs, x_kpc,
                 v_cgs, v_kms,
