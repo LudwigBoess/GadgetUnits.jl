@@ -1,6 +1,6 @@
 | **Documentation**                                                 | **Build Status**                                                                                | **License**                                                                                |
 |:-----------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:| :-----------------------------------------------------------------------------------------------:|
-[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://LudwigBoess.github.io/GadgetUnits.jl/stable) [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://LudwigBoess.github.io/GadgetUnits.jl/dev) | [![Build Status](https://travis-ci.org/LudwigBoess/GadgetUnits.jl.svg?branch=master)](https://travis-ci.org/LudwigBoess/GadgetUnits.jl) [![codecov.io](https://codecov.io/gh/LudwigBoess/GadgetUnits.jl/coverage.svg?branch=master)](https://codecov.io/gh/LudwigBoess/GadgetUnits.jl?branch=master) | [![The MIT License](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE.md) |
+[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://LudwigBoess.github.io/GadgetUnits.jl/stable) [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://LudwigBoess.github.io/GadgetUnits.jl/dev) | [![Run CI on master](https://github.com/LudwigBoess/GadgetUnits.jl/actions/workflows/jlpkgbutler-ci-master-workflow.yml/badge.svg)](https://github.com/LudwigBoess/GadgetUnits.jl/actions/workflows/jlpkgbutler-ci-master-workflow.yml) [![codecov.io](https://codecov.io/gh/LudwigBoess/GadgetUnits.jl/coverage.svg?branch=master)](https://codecov.io/gh/LudwigBoess/GadgetUnits.jl?branch=master) | [![The MIT License](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE.md) |
 
 # GadgetUnits.jl
 
@@ -31,8 +31,13 @@ This returns an object of type `GadgetPhysicalUnits` with the following properti
 struct GadgetPhysicalUnits
 
     x_cgs::typeof(1.0u"cm")         # position in cm
+    x_kpc::typeof(1.0u"kpc")        # position in kpc
+
     v_cgs::typeof(1.0u"cm/s")       # velocity in cm/s
+    v_kms::typeof(1.0u"km/s")       # velocity in km/s
+
     m_cgs::typeof(1.0u"g")          # mass in g
+    m_msun::typeof(1.0u"Msun")      # mass in Msun
 
     t_s::typeof(1.0u"s")            # time in sec
     t_Myr::typeof(1.0u"Myr")        # time in Myr
@@ -43,9 +48,10 @@ struct GadgetPhysicalUnits
     B_cgs::typeof(1.0u"Gs")         # magnetic field in Gauss
 
     rho_cgs::typeof(1.0u"g/cm^3")   # density in g/cm^3
-    rho_ncm3::typeof(1.0u"n_e")     # density in N_p/cm^3
+    rho_ncm3::typeof(1.0u"mp/cm^3") # density in mp/cm^3
 
     T_K::typeof(1.0u"K")            # temperature in K
+    T_eV::typeof(1.0u"eV")          # temperature in eV
 
     P_th_cgs::typeof(1.0u"Ba")      # thermal pressure in Ba
     P_CR_cgs::typeof(1.0u"Ba")      # cosmic ray pressure in Ba
