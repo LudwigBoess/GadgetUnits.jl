@@ -125,7 +125,7 @@ module GadgetUnits
             yhelium = ( 1.0 - xH ) / ( 4.0 * xH )
             mean_mol_weight = (1.0 + 4.0 * yhelium) / (1.0 + 3.0 * yhelium + 1.0)
 
-            T_cgs = (γ_th - 1.0) * v_cgs^2 * 1.0u"mp" * mean_mol_weight / 1.0u"k" |> u"K"
+            T_cgs = (γ_th - 1.0) * v_unit^2 * 1.0u"mp" * mean_mol_weight / 1.0u"k" |> u"K"
             T_eV  = T_cgs * 1.0u"k" |> u"eV"
 
             P_th_cgs = a_scale^(-3) * E_cgs / l_unit^3 * hpar^2  |> u"erg/cm^3"
@@ -253,7 +253,7 @@ module GadgetUnits
             rho_ncm3 = rho_cgs * n2ne/( umu * mp )
 
         
-            T_cgs = (γ_th - 1.0) * v_cgs^2 * mean_mol_weight * mp / kB
+            T_cgs = (γ_th - 1.0) * v_unit^2 * mean_mol_weight * mp / kB
             T_eV  = T_cgs * kB / eV2cgs
 
             P_th_cgs = a_scale^(-3) * E_cgs / l_unit^3 * hpar^2
