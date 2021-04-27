@@ -261,7 +261,7 @@ module GadgetUnits
 
             new(x_cgs, x_cgs/3.085678e21, 
                 v_cgs, v_cgs*1.e-5,
-                m_cgs, m_cgs/1.989e43,
+                m_cgs, m_cgs/1.989e33,
                 t_s, t_Myr,
                 E_cgs, E_eV,
                 B_cgs,
