@@ -2,7 +2,6 @@ module GadgetUnits
 
     export GadgetPhysical,
            GadgetPhysicalUnits,
-           @u_str,
            strip_unit
 
     using Unitful
@@ -10,9 +9,9 @@ module GadgetUnits
 
 
     """
-        GadgetPhysicalUnits(l_unit::Float64=3.085678e21, m_unit::Float64=1.989e43, v_unit::Float64=1.e5;
-                            a_scale::Float64=1.0, hpar::Float64=1.0,
-                            γ_th::Float64=5.0/3.0, γ_CR::Float64=4.0/3.0, xH::Float64=0.76)
+        GadgetPhysicalUnits(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::T=1.e5;
+                            a_scale::T=1.0, hpar::T=1.0,
+                            γ_th::T=5.0/3.0, γ_CR::T=4.0/3.0, xH::T=0.76) where T
 
     Creates a datatype GadgetPhysicalUnits which holds the conversion factors between comoving code units and physical units.
     Stores the unit information which can be converted with Unitful or UnitfulAstro.
@@ -26,70 +25,70 @@ module GadgetUnits
     ```
 
     # Keyword Arguments
-    - `a_scale::Float64 = 1.0`:  Cosmological scale factor of the simulation. Can be passed with the header `h` as `h.time`.
-    - `hpar::Float64 = 1.0`:     Hubble constant as 'little h'. Can be passed with header `h` as `h.h0`.
-    - `γ_th::Float64 = 5.0/3.0`: Adiabatic index of gas.
-    - `γ_CR::Float64 = 4.0/3.0`: Adiabatic index of cosmic ray component.
-    - `xH::Float64 = 0.76`:      Hydrogen fraction of the simulation, if run without chemical model.
+    - `a_scale::T = 1.0`:  Cosmological scale factor of the simulation. Can be passed with the header `h` as `h.time`.
+    - `hpar::T = 1.0`:     Hubble constant as 'little h'. Can be passed with header `h` as `h.h0`.
+    - `γ_th::T = 5.0/3.0`: Adiabatic index of gas.
+    - `γ_CR::T = 4.0/3.0`: Adiabatic index of cosmic ray component.
+    - `xH::T = 0.76`:      Hydrogen fraction of the simulation, if run without chemical model.
 
     # Fields
-    | Name                     | Meaning                        |
-    |: ----------------------- |:-----------------------------  |
-    | `x_cgs::Float64`         | position in cm                 |
-    | `x_kpc::Float64`         | position in kpc                |
-    | `v_cgs::Float64`         | velocity in cm/s               |
-    | `v_kms::Float64`         | velocity in km/s               |
-    | `m_cgs::Float64`         | mass in g                      |
-    | `m_msun::Float64`        | mass in Msun                   |
-    | `t_s::Float64`           | time in sec                    |
-    | `t_Myr::Float64`         | time in Myr                    |
-    | `E_cgs::Float64`         | energy in erg                  |
-    | `E_eV::Float64`          | energy in eV                   |
-    | `B_cgs::Float64`         | magnetic field in Gauss        |
-    | `rho_cgs::Float64`       | density in ``g/cm^3``          |
-    | `rho_ncm3::Float64`      | density in ``n_p/cm^3``        |
-    | `T_K::Float64`           | temperature in K               |
-    | `T_eV::Float64`          | temperature in eV              |
-    | `P_th_cgs::Float64`      | thermal pressure in Ba         |
-    | `P_CR_cgs::Float64`      | cosmic ray pressure in Ba      |
+    | Name                         | Meaning                        |
+    |: --------------------------- |:-----------------------------  |
+    | `x_cgs::Quantity{T}`         | position in cm                 |
+    | `x_kpc::Quantity{T}`         | position in kpc                |
+    | `v_cgs::Quantity{T}`         | velocity in cm/s               |
+    | `v_kms::Quantity{T}`         | velocity in km/s               |
+    | `m_cgs::Quantity{T}`         | mass in g                      |
+    | `m_msun::Quantity{T}`        | mass in Msun                   |
+    | `t_s::Quantity{T}`           | time in sec                    |
+    | `t_Myr::Quantity{T}`         | time in Myr                    |
+    | `E_cgs::Quantity{T}`         | energy in erg                  |
+    | `E_eV::Quantity{T}`          | energy in eV                   |
+    | `B_cgs::Quantity{T}`         | magnetic field in Gauss        |
+    | `rho_cgs::Quantity{T}`       | density in ``g/cm^3``          |
+    | `rho_ncm3::Quantity{T}`      | density in ``n_p/cm^3``        |
+    | `T_K::Quantity{T}`           | temperature in K               |
+    | `T_eV::Quantity{T}`          | temperature in eV              |
+    | `P_th_cgs::Quantity{T}`      | thermal pressure in Ba         |
+    | `P_CR_cgs::Quantity{T}`      | cosmic ray pressure in Ba      |
 
     """
-    struct GadgetPhysicalUnits
+    struct GadgetPhysicalUnits{T}
 
-        x_cgs::typeof(1.0u"cm")         # position in cm
-        x_kpc::typeof(1.0u"kpc")        # position in kpc
+        x_cgs::Quantity{T}        # position in cm
+        x_kpc::Quantity{T}        # position in kpc
 
-        v_cgs::typeof(1.0u"cm/s")       # velocity in cm/s
-        v_kms::typeof(1.0u"km/s")       # velocity in km/s
+        v_cgs::Quantity{T}     # velocity in cm/s
+        v_kms::Quantity{T}     # velocity in km/s
 
-        m_cgs::typeof(1.0u"g")          # mass in g
-        m_msun::typeof(1.0u"Msun")      # mass in Msun
+        m_cgs::Quantity{T}     # mass in g
+        m_msun::Quantity{T}    # mass in Msun
 
-        t_s::typeof(1.0u"s")            # time in sec
-        t_Myr::typeof(1.0u"Myr")        # time in Myr
+        t_s::Quantity{T}          # time in sec
+        t_Myr::Quantity{T}        # time in Myr
 
-        E_cgs::typeof(1.0u"erg")        # energy in erg
-        E_eV::typeof(1.0u"eV")          # energy in eV
+        E_cgs::Quantity{T}        # energy in erg
+        E_eV::Quantity{T}         # energy in eV
 
-        B_cgs::typeof(1.0u"Gs")         # magnetic field in Gauss
+        B_cgs::Quantity{T}     # magnetic field in Gauss
 
-        rho_cgs::typeof(1.0u"g/cm^3")   # density in g/cm^3
-        rho_ncm3::typeof(1.0u"cm^-3")     # density in mp/cm^3
+        rho_cgs::Quantity{T}   # density in g/cm^3
+        rho_ncm3::Quantity{T}    # density in mp/cm^3
 
-        T_K::typeof(1.0u"K")            # temperature in K
-        T_eV::typeof(1.0u"eV")            # temperature in eV
+        T_K::Quantity{T}           # temperature in K
+        T_eV::Quantity{T}            # temperature in eV
 
-        P_th_cgs::typeof(1.0u"erg/cm^3")      # thermal pressure in Ba
-        P_CR_cgs::typeof(1.0u"erg/cm^3")      # cosmic ray pressure in Ba
+        P_th_cgs::Quantity{T}      # thermal pressure in Ba
+        P_CR_cgs::Quantity{T}      # cosmic ray pressure in Ba
 
-        function GadgetPhysicalUnits(l_unit::Float64=3.085678e21, m_unit::Float64=1.989e43, v_unit::Float64=1.e5;
-                                    a_scale::Float64=1.0, hpar::Float64=1.0,
-                                    γ_th::Float64=5.0/3.0, γ_CR::Float64=4.0/3.0, xH::Float64=0.76)
+        function GadgetPhysicalUnits(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::T=1.e5;
+                                    a_scale::T=1.0, hpar::T=1.0,
+                                    γ_th::T=5.0/3.0, γ_CR::T=4.0/3.0, xH::T=0.76) where T
 
             # Gadget units are given in cgs
-            l_unit *= 1.0u"cm"
-            m_unit *= 1.0u"g"
-            v_unit *= 1.0u"cm/s"
+            l_unit *= one(T)*u"cm"
+            m_unit *= one(T)*u"g"
+            v_unit *= one(T)*u"cm/s"
 
             # convert comoving output to physical units
             x_cgs   = l_unit * a_scale / hpar
@@ -131,7 +130,7 @@ module GadgetUnits
             P_th_cgs = a_scale^(-3) * E_cgs / l_unit^3 * hpar^2  |> u"erg/cm^3"
             P_CR_cgs = a_scale^(-4) * E_cgs / l_unit^3 * hpar^2  |> u"erg/cm^3"
 
-            new(x_cgs, x_kpc,
+            new{T}(x_cgs, x_kpc,
                 v_cgs, v_kms,
                 m_cgs, m_msun,
                 t_s, t_Myr,
@@ -146,11 +145,27 @@ module GadgetUnits
         end
     end
 
+    """
+        GadgetPhysicalUnits( DT::DataType, 
+                             l_unit::Real=3.085678e21, m_unit::Real=1.989e43, v_unit::Real=1.e5;
+                             a_scale::Real=1.0, hpar::Real=1.0,
+                             γ_th::Real=5.0/3.0, γ_CR::Real=4.0/3.0, xH::Real=0.76)
+
+    Set up a unit struct with a given `DataType`.
+    """
+    GadgetPhysicalUnits( DT::DataType, 
+                         l_unit::Real=3.085678e21, m_unit::Real=1.989e43, v_unit::Real=1.e5;
+                         a_scale::Real=1.0, hpar::Real=1.0,
+                         γ_th::Real=5.0/3.0, γ_CR::Real=4.0/3.0, xH::Real=0.76) = 
+        GadgetPhysicalUnits(DT(l_unit), DT(m_unit), DT(v_unit),
+                            a_scale=DT(a_scale), hpar=DT(hpar), 
+                            γ_th=DT(γ_th), γ_CR=DT(γ_CR), xH=DT(xH))
+
 
     """
-        GadgetPhysical(l_unit::Float64=3.085678e21, m_unit::Float64=1.989e43, v_unit::Float64=1.e5;
-                    a_scale::Float64=1.0, hpar::Float64=1.0,
-                    γ_th::Float64=5.0/3.0, γ_CR::Float64=4.0/3.0, xH::Float64=0.76)
+        GadgetPhysical(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::T=1.e5;
+                    a_scale::T=1.0, hpar::T=1.0,
+                    γ_th::T=5.0/3.0, γ_CR::T=4.0/3.0, xH::T=0.76) where T
 
     Creates a datatype GadgetPhysical which holds the conversion factors between comoving code units and physical units, without unit information.
 
@@ -164,65 +179,65 @@ module GadgetUnits
 
     Keyword arugments specify:
     # Arguments
-    - `a_scale::Float64 = 1.0`:  Cosmological scale factor of the simulation. Can be passed with the header `h` as `h.time`.
-    - `hpar::Float64 = 1.0`:     Hubble constant as 'little h'. Can be passed with header `h` as `h.h0`.
-    - `γ_th::Float64 = 5.0/3.0`: Adiabatic index of gas.
-    - `γ_CR::Float64 = 4.0/3.0`: Adiabatic index of cosmic ray component.
-    - `xH::Float64 = 0.76`:      Hydrogen fraction of the simulation, if run without chemical model.
+    - `a_scale::T = 1.0`:  Cosmological scale factor of the simulation. Can be passed with the header `h` as `h.time`.
+    - `hpar::T = 1.0`:     Hubble constant as 'little h'. Can be passed with header `h` as `h.h0`.
+    - `γ_th::T = 5.0/3.0`: Adiabatic index of gas.
+    - `γ_CR::T = 4.0/3.0`: Adiabatic index of cosmic ray component.
+    - `xH::T = 0.76`:      Hydrogen fraction of the simulation, if run without chemical model.
 
     # Fields
     | Name                     | Meaning                        |
     |: ----------------------- |:-----------------------------  |
-    | `x_cgs::Float64`         | position in cm                 |
-    | `x_kpc::Float64`         | position in kpc                |
-    | `v_cgs::Float64`         | velocity in cm/s               |
-    | `v_kms::Float64`         | velocity in km/s               |
-    | `m_cgs::Float64`         | mass in g                      |
-    | `m_msun::Float64`        | mass in Msun                   |
-    | `t_s::Float64`           | time in sec                    |
-    | `t_Myr::Float64`         | time in Myr                    |
-    | `E_cgs::Float64`         | energy in erg                  |
-    | `E_eV::Float64`          | energy in eV                   |
-    | `B_cgs::Float64`         | magnetic field in Gauss        |
-    | `rho_cgs::Float64`       | density in ``g/cm^3``          |
-    | `rho_ncm3::Float64`      | density in ``n_p/cm^3``        |
-    | `T_K::Float64`           | temperature in K               |
-    | `T_eV::Float64`          | temperature in eV              |
-    | `P_th_cgs::Float64`      | thermal pressure in Ba         |
-    | `P_CR_cgs::Float64`      | cosmic ray pressure in Ba      |
+    | `x_cgs::T`         | position in cm                 |
+    | `x_kpc::T`         | position in kpc                |
+    | `v_cgs::T`         | velocity in cm/s               |
+    | `v_kms::T`         | velocity in km/s               |
+    | `m_cgs::T`         | mass in g                      |
+    | `m_msun::T`        | mass in Msun                   |
+    | `t_s::T`           | time in sec                    |
+    | `t_Myr::T`         | time in Myr                    |
+    | `E_cgs::T`         | energy in erg                  |
+    | `E_eV::T`          | energy in eV                   |
+    | `B_cgs::T`         | magnetic field in Gauss        |
+    | `rho_cgs::T`       | density in ``g/cm^3``          |
+    | `rho_ncm3::T`      | density in ``n_p/cm^3``        |
+    | `T_K::T`           | temperature in K               |
+    | `T_eV::T`          | temperature in eV              |
+    | `P_th_cgs::T`      | thermal pressure in Ba         |
+    | `P_CR_cgs::T`      | cosmic ray pressure in Ba      |
 
     """
-    struct GadgetPhysical
+    struct GadgetPhysical{T}
 
-        x_cgs::Float64         # position in cm
-        x_kpc::Float64         # position in kpc
+        x_cgs::T         # position in cm
+        x_kpc::T         # position in kpc
 
-        v_cgs::Float64         # velocity in cm/s
-        v_kms::Float64         # velocity in km/s
+        v_cgs::T         # velocity in cm/s
+        v_kms::T         # velocity in km/s
 
-        m_cgs::Float64         # mass in g
-        m_msun::Float64        # mass in Msun
+        m_cgs::T         # mass in g
+        m_msun::T        # mass in Msun
 
-        t_s::Float64           # time in sec
-        t_Myr::Float64         # time in Myr
+        t_s::T           # time in sec
+        t_Myr::T         # time in Myr
 
-        E_cgs::Float64         # energy in erg
-        E_eV::Float64          # energy in eV
+        E_cgs::T         # energy in erg
+        E_eV::T          # energy in eV
 
-        B_cgs::Float64         # magnetic field in Gauss
+        B_cgs::T         # magnetic field in Gauss
 
-        rho_cgs::Float64       # density in g/cm^3
-        rho_ncm3::Float64      # density in N_p/cm^3
+        rho_cgs::T       # density in g/cm^3
+        rho_ncm3::T      # density in N_p/cm^3
 
-        T_K::Float64           # temperature in K
-        T_eV::Float64          # temperature in eV
+        T_K::T           # temperature in K
+        T_eV::T          # temperature in eV
 
-        P_th_cgs::Float64      # thermal pressure in Ba
-        P_CR_cgs::Float64      # cosmic ray pressure in Ba
+        P_th_cgs::T      # thermal pressure in Ba
+        P_CR_cgs::T      # cosmic ray pressure in Ba
 
-        function GadgetPhysical(l_unit::Float64=3.085678e21, m_unit::Float64=1.989e43, v_unit::Float64=1.e5;
-                                a_scale::Float64=1.0, hpar::Float64=1.0,
-                                γ_th::Float64=5.0/3.0, γ_CR::Float64=4.0/3.0, xH::Float64=0.76)
+        function GadgetPhysical(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::T=1.e5;
+                                a_scale::T=1.0, hpar::T=1.0,
+                                γ_th::T=5.0/3.0, γ_CR::T=4.0/3.0, xH::T=0.76) where T
 
             # some basic constants
             kB      = 1.38066e-16
@@ -259,9 +274,9 @@ module GadgetUnits
             P_th_cgs = a_scale^(-3) * E_cgs / l_unit^3 * hpar^2
             P_CR_cgs = a_scale^(-4) * E_cgs / l_unit^3 * hpar^2
 
-            new(x_cgs, x_cgs/3.085678e21, 
-                v_cgs, v_cgs*1.e-5,
-                m_cgs, m_cgs/1.989e33,
+            new{T}(x_cgs, x_cgs/T(3.085678e21), 
+                v_cgs, v_cgs*T(1.e-5),
+                m_cgs, m_cgs/T(1.989e33),
                 t_s, t_Myr,
                 E_cgs, E_eV,
                 B_cgs,
@@ -273,6 +288,22 @@ module GadgetUnits
 
         end
     end
+
+    """
+        GadgetPhysical( DT::DataType, 
+                        l_unit::Real=3.085678e21, m_unit::Real=1.989e43, v_unit::Real=1.e5;
+                        a_scale::Real=1.0, hpar::Real=1.0,
+                        γ_th::Real=5.0/3.0, γ_CR::Real=4.0/3.0, xH::Real=0.76)
+
+    Set up a unit struct with a given `DataType`.
+    """
+    GadgetPhysical( DT::DataType, 
+                    l_unit::Real=3.085678e21, m_unit::Real=1.989e43, v_unit::Real=1.e5;
+                    a_scale::Real=1.0, hpar::Real=1.0,
+                    γ_th::Real=5.0/3.0, γ_CR::Real=4.0/3.0, xH::Real=0.76) = 
+        GadgetPhysical( DT(l_unit), DT(m_unit), DT(v_unit),
+                        a_scale=DT(a_scale), hpar=DT(hpar), 
+                        γ_th=DT(γ_th), γ_CR=DT(γ_CR), xH=DT(xH) )
 
     """
         strip_unit(a)
