@@ -2,10 +2,16 @@ module GadgetUnits
 
     export GadgetPhysical,
            GadgetPhysicalUnits,
-           strip_unit
+           strip_unit,
+           arcmin_to_kpc,
+           mJy_to_W
 
     using Unitful
     using UnitfulAstro
+    using Cosmology
+    using GadgetIO
+
+    include("conversions.jl")
 
 
     """
@@ -210,13 +216,14 @@ module GadgetUnits
     struct GadgetPhysical{T}
 
         x_cgs::T         # position in cm
-        x_kpc::T         # position in kpc
+        x_physical::T    # position in kpc
 
         v_cgs::T         # velocity in cm/s
-        v_kms::T         # velocity in km/s
+        v_physical::T    # velocity in km/s
 
         m_cgs::T         # mass in g
         m_msun::T        # mass in Msun
+        m_physical::T    # mass in 10^10 Msun
 
         t_s::T           # time in sec
         t_Myr::T         # time in Myr
@@ -226,6 +233,7 @@ module GadgetUnits
 
         B_cgs::T         # magnetic field in Gauss
 
+        rho_physical::T   # density in 10^10 Msun/kpc^3
         rho_cgs::T       # density in g/cm^3
         rho_ncm3::T      # density in N_p/cm^3
 
@@ -252,20 +260,27 @@ module GadgetUnits
             umu  =  4.0 / ( 5.0 * xH + 3.0 )                 # mean molucular weight in hydr. mass
 
             # convert comoving output to physical units
-            x_cgs   = l_unit * a_scale / hpar
-            v_cgs   = v_unit * sqrt(a_scale)
-            m_cgs   = m_unit / hpar
+            x_cgs      = l_unit * a_scale / hpar
+            x_physical = a_scale / hpar
+            
+            v_cgs      = v_unit * sqrt(a_scale)
+            v_physical = sqrt(a_scale)
+
+            m_cgs      = m_unit / hpar
+            m_physical = 1.0 / hpar
+
             t_unit  = l_unit / v_unit
             t_s     = t_unit * sqrt(a_scale) / hpar  # in sec
             t_Myr   = t_s / 3.15576e13
 
             E_cgs = m_cgs * v_cgs^2
-            E_eV = E_cgs
+            E_eV  = E_cgs * 6.242e+11
 
             B_cgs = 1.0   # gadget outputs in cgs
 
-            rho_cgs = m_unit/l_unit^3 * hpar^2 / a_scale^3
-            rho_ncm3 = rho_cgs * n2ne/( umu * mp )
+            rho_physical = m_physical / x_physical^3
+            rho_cgs      = m_unit/l_unit^3 * hpar^2 / a_scale^3
+            rho_ncm3     = rho_cgs * n2ne/( umu * mp )
 
         
             T_cgs = (γ_th - 1.0) * v_unit^2 * mean_mol_weight * mp / kB
@@ -274,13 +289,13 @@ module GadgetUnits
             P_th_cgs = a_scale^(-3) * E_cgs / l_unit^3 * hpar^2
             P_CR_cgs = a_scale^(-4) * E_cgs / l_unit^3 * hpar^2
 
-            new{T}(x_cgs, x_cgs/T(3.085678e21), 
-                v_cgs, v_cgs*T(1.e-5),
-                m_cgs, m_cgs/T(1.989e33),
+            new{T}(x_cgs, x_physical,
+                v_cgs, v_physical,
+                m_cgs, m_cgs/T(1.989e33), m_physical,
                 t_s, t_Myr,
                 E_cgs, E_eV,
                 B_cgs,
-                rho_cgs, rho_ncm3,
+                rho_physical, rho_cgs, rho_ncm3,
                 T_cgs, T_eV,
                 P_th_cgs,
                 P_CR_cgs
