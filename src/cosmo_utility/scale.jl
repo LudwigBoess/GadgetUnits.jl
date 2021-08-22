@@ -18,7 +18,7 @@ end
 Convert `arcmin` to `kpc` for a given redshift `z` and cosmology `c`.
 Deletes unit information.
 """
-arcmin_to_kpc(c::Cosmology.AbstractCosmology, θ::Real, z::Real ) = arcmin_to_kpc( cosmology(h=h.h0, OmegaM=h.omega_0), θ * 1.0u"arcminute", h.z) |> ustrip
+arcmin_to_kpc(c::Cosmology.AbstractCosmology, θ::Real, z::Real ) = arcmin_to_kpc( c, θ * 1.0u"arcminute", z) |> ustrip
 
 """
     arcmin_to_kpc(θ::Real, h::SnapshotHeader)
