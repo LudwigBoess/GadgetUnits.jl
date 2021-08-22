@@ -48,7 +48,9 @@ Downloads.download("http://www.usm.uni-muenchen.de/~lboess/GadgetIO/snap_144.0",
         
         @testset "Setup" begin
             c = cosmology(h)
-            @test c == Cosmology.FlatLCDM{Float64}(0.704, 0.7279156596296679, 0.272, 8.434037033212373e-5)
+            @test c.h     ≈ h.h0
+            @test c.Ω_m   ≈ h.omega_0
+            #Cosmology.FlatLCDM{Float64}(0.704, 0.7279156596296679, 0.272, 8.434037033212373e-5)
         end
         
         @testset "Scale" begin
