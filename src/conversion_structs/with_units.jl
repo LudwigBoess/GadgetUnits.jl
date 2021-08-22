@@ -96,7 +96,7 @@ function GadgetPhysicalUnits(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::
 
     m_cgs   = m_unit / hpar
     m_msun  = m_cgs |> u"Msun"
-    m_physical = m_cgs |> 1.e10u"Msun"
+    m_physical = m_cgs |> u"Msun"
 
     t_unit  = l_unit / v_unit
     t_s     = t_unit * sqrt(a_scale) / hpar  # in sec
@@ -108,7 +108,7 @@ function GadgetPhysicalUnits(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::
     B_cgs = 1.0u"Gs"    # gadget outputs in cgs
 
     rho_cgs = m_unit/l_unit^3 * hpar^2 / a_scale^3
-    rho_physical = rho_cgs |> 1.e10u"Msun/kpc^3"
+    rho_physical = rho_cgs |> u"Msun/kpc^3"
 
     yhelium = ( 1.0 - xH ) / ( 4.0 * xH )
     mean_mol_weight = (1.0 + 4.0 * yhelium) / (1.0 + 3.0 * yhelium + 1.0)
