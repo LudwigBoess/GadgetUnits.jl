@@ -11,8 +11,8 @@ function age(h::SnapshotHeader, units::Bool=true)
     t = age(c, h.z)
 
     if units
-        return t |> ustrip
-    else
         return t
+    else
+        return t |> ustrip
     end
 end
