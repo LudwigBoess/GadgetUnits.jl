@@ -4,7 +4,15 @@ using GadgetUnits
 makedocs(
     sitename="GadgetUnits",
     format=Documenter.HTML(),
-    modules=[GadgetUnits]
+    modules=[GadgetUnits],
+    pages = [
+            "Table of Contents" => "index.md",
+            "Install"           => "install.md",
+            "Basic Unit Conversion" => "conversion_structs.md",
+            "Cosmological conversions" => "cosmo.md",
+            "API reference"     => "api.md"
+            ]
+        )
 )
 
 # Documenter can also automatically deploy documentation to gh-pages.
