@@ -36,14 +36,6 @@ end
 
 Creates a datatype GadgetPhysical which holds the conversion factors between comoving code units and physical units, without unit information.
 
-# Examples
-```jldoctest
-julia> GU = GadgetPhysical()
-GadgetPhysicalUnits(3.085678e21, 100000.0, 1.989e43, 3.085678e16, 977.7923542981722, 1.989e53, 1.2414361549102458e65, 1.0, 6.769911178294544e-22, 743179.9340255889, 47.50882854026919, 6.769911178294544e-12, 6.769911178294544e-12)
-julia> GU.x_cgs
-3.085678e21
-```
-
 Keyword arugments specify:
 # Arguments
 - `a_scale::T = 1.0`:  Cosmological scale factor of the simulation. Can be passed with the header `h` as `h.time`.

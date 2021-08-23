@@ -41,14 +41,6 @@ end
 Creates a datatype GadgetPhysicalUnits which holds the conversion factors between comoving code units and physical units.
 Stores the unit information which can be converted with Unitful or UnitfulAstro.
 
-# Examples
-```jldoctest
-julia> GU = GadgetPhysicalUnits()
-GadgetPhysicalUnits(3.085678e21 cm, 100000.0 cm s^-1, 1.989e43 g, 3.085678e16 s, 977.7923542981722 Myr, 1.989e53 erg, 1.2414361549102458e65 eV, 1.0 Gs, 6.769911178294544e-22 g cm^-3, 743179.9340255889 N_e/cm^3, 47.50882854026919 K, 6.769911178294544e-12 Ba, 6.769911178294544e-12 Ba)
-julia> GU.x_cgs
-3.085678e21 cm
-```
-
 # Keyword Arguments
 - `a_scale::T = 1.0`:  Cosmological scale factor of the simulation. Can be passed with the header `h` as `h.time`.
 - `hpar::T = 1.0`:     Hubble constant as 'little h'. Can be passed with header `h` as `h.h0`.
