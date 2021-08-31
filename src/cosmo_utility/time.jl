@@ -1,11 +1,11 @@
 import Cosmology.age 
 
 """
-    age(h::SnapshotHeader)
+    age(h::AbstractGadgetHeader)
 
-Computes the age of the universe given the properties from `SnapshotHeader`.
+Computes the age of the universe given the properties from `AbstractGadgetHeader`.
 """
-function age(h::SnapshotHeader, units::Bool=true)
+function age(h::AbstractGadgetHeader, units::Bool=true)
     
     c = cosmology(h)
     t = age(c, h.z)
