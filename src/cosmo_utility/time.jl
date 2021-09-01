@@ -38,7 +38,7 @@ end
 
 See [`redshift`](@ref).
 """
-redshift(t::Unitful.AbstractQuantity, h::AbstractGadgetHeader) = redshift( ustrip( t |> u"Gyr" ), cosmology(h=h.h0, OmegaM=h.omega_0))
+redshift(t::Unitful.AbstractQuantity, h::AbstractGadgetHeader) = redshift( ustrip( t |> u"Gyr" ), cosmology(h))
 
 
 """
@@ -46,7 +46,7 @@ redshift(t::Unitful.AbstractQuantity, h::AbstractGadgetHeader) = redshift( ustri
 
 See [`redshift`](@ref).
 """
-redshift(t::Real, h::AbstractGadgetHeader) = redshift( t, cosmology(h=h.h0, OmegaM=h.omega_0))
+redshift(t::Real, h::AbstractGadgetHeader) = redshift( t, cosmology(h))
 
 
 """
