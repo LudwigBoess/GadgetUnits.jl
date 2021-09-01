@@ -14,7 +14,8 @@ module GadgetUnits
 
     export GadgetPhysical,
            GadgetPhysicalUnits,
-           cosmology, age,
+           cosmology, 
+           age, redshift,
            arcmin_to_kpc,
            mJy_to_W
 
