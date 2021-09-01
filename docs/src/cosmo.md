@@ -13,7 +13,7 @@ end
 
 To define an `AbstractCosmology` from the properties of the simulation you can use the multiple dispatch function
 ```julia
-c = cosmology(h::SnapshotHeader)
+c = cosmology(h::AbstractGadgetHeader)
 ```
 
 ## Time
@@ -21,7 +21,7 @@ c = cosmology(h::SnapshotHeader)
 To get the current age of the universe you can use [`age`](@ref)
 
 ```julia
-t = age(h::SnapshotHeader, units::Bool=true)
+t = age(h::AbstractGadgetHeader, units::Bool=true)
 ```
 
 If the optional parameter `units` is set to `true` it will preserve the unit property. Otherwise it will return a `Real` in units `Gyrs`.
@@ -33,10 +33,10 @@ This can be used either with a pre-defined `Cosmology.AbstractCosmology`
 ```julia
 arcmin_to_kpc(c::Cosmology.AbstractCosmology, θ::Real, z::Real )
 ```
-or can use a `SnapshotHeader` struct from [`GadgetIO.jl`](https://github.com/LudwigBoess/GadgetIO.jl) which defines the `AbstractCosmology` on the fly:
+or can use a `AbstractGadgetHeader` struct from [`GadgetIO.jl`](https://github.com/LudwigBoess/GadgetIO.jl) which defines the `AbstractCosmology` on the fly:
 
 ```julia
-arcmin_to_kpc(θ::Real, h::SnapshotHeader)
+arcmin_to_kpc(θ::Real, h::AbstractGadgetHeader)
 ```
 
 If you input `θ::Real` the function will return `kpc`, but remove the unit property.
@@ -50,8 +50,8 @@ Like in the case of [`Scale`](@ref) you can use either a pre-defined `AbstractCo
 mJy_to_W( c::Cosmology.AbstractCosmology, S::Real, z::Real )
 ```
 
-or use a `SnapshotHeader`
+or use a `AbstractGadgetHeader`
 
 ```julia
-mJy_to_W(S::Union{Real, Unitful.AbstractQuantity}, h::SnapshotHeader)
+mJy_to_W(S::Union{Real, Unitful.AbstractQuantity}, h::AbstractGadgetHeader)
 ```

@@ -21,15 +21,15 @@ Deletes unit information.
 arcmin_to_kpc(c::Cosmology.AbstractCosmology, θ::Real, z::Real ) = arcmin_to_kpc( c, θ * 1.0u"arcminute", z) |> ustrip
 
 """
-    arcmin_to_kpc(θ::Real, h::SnapshotHeader)
+    arcmin_to_kpc(θ::Real, h::AbstractGadgetHeader)
 
-Convert `arcmin` to `kpc` for a given redshift and cosmology taken from `SnapshotHeader`.
+Convert `arcmin` to `kpc` for a given redshift and cosmology taken from `AbstractGadgetHeader`.
 """
-arcmin_to_kpc(θ::Real, h::SnapshotHeader) = arcmin_to_kpc( cosmology(h=h.h0, OmegaM=h.omega_0), θ, h.z) |> ustrip
+arcmin_to_kpc(θ::Real, h::AbstractGadgetHeader) = arcmin_to_kpc( cosmology(h=h.h0, OmegaM=h.omega_0), θ, h.z) |> ustrip
 
 """
-    arcmin_to_kpc(θ::Unitful.AbstractQuantity, h::SnapshotHeader)
+    arcmin_to_kpc(θ::Unitful.AbstractQuantity, h::AbstractGadgetHeader)
 
-Convert `arcmin` to `kpc` for a given redshift and cosmology taken from `SnapshotHeader`.
+Convert `arcmin` to `kpc` for a given redshift and cosmology taken from `AbstractGadgetHeader`.
 """
-arcmin_to_kpc(θ::Unitful.AbstractQuantity, h::SnapshotHeader) = arcmin_to_kpc( cosmology(h=h.h0, OmegaM=h.omega_0), θ, h.z)
+arcmin_to_kpc(θ::Unitful.AbstractQuantity, h::AbstractGadgetHeader) = arcmin_to_kpc( cosmology(h=h.h0, OmegaM=h.omega_0), θ, h.z)
