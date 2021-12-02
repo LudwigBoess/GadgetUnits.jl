@@ -4,7 +4,7 @@
 
 # GadgetUnits.jl
 
-This package is a subproject of [GadJet.jl](https://github.com/LudwigBoess/GadJet.jl) and provides some basic unit conversion functionality to work with the SPH code "Gadget" by Volker Springel (doi:10.1111/j.1365-2966.2005.09655.x).
+This package is a subproject of [GadJet.jl](https://github.com/LudwigBoess/GadJet.jl) and provides some basic unit conversion functionality to work with the SPH code [Gadget2](https://wwwmpa.mpa-garching.mpg.de/gadget/) by Volker Springel.
 
 Unit Conversion
 ===============
