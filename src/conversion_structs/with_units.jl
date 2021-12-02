@@ -50,7 +50,7 @@ Stores the unit information which can be converted with Unitful or UnitfulAstro.
 
 # Fields
 | Name                         | Meaning                        |
-|: --------------------------- |:-----------------------------  |
+|:---------------------------- |:-----------------------------  |
 | `x_cgs::Quantity{T}`         | position in cm                 |
 | `x_kpc::Quantity{T}`         | position in kpc                |
 | `v_cgs::Quantity{T}`         | velocity in cm/s               |

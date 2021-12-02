@@ -27,25 +27,27 @@ where the keyword arguments are:
 
 This returns an object of type `GadgetPhysicalUnits` with the following properties:
 
-| Name                     | Meaning                        |
-|: ----------------------- |:-----------------------------  |
-| `x_cgs::T`         | position in cm                 |
-| `x_kpc::T`         | position in kpc                |
-| `v_cgs::T`         | velocity in cm/s               |
-| `v_kms::T`         | velocity in km/s               |
-| `m_cgs::T`         | mass in g                      |
-| `m_msun::T`        | mass in Msun                   |
-| `t_s::T`           | time in sec                    |
-| `t_Myr::T`         | time in Myr                    |
-| `E_cgs::T`         | energy in erg                  |
-| `E_eV::T`          | energy in eV                   |
-| `B_cgs::T`         | magnetic field in Gauss        |
-| `rho_cgs::T`       | density in ``g/cm^3``          |
-| `rho_ncm3::T`      | density in ``n_p/cm^3``        |
-| `T_K::T`           | temperature in K               |
-| `T_eV::T`          | temperature in eV              |
-| `P_th_cgs::T`      | thermal pressure in Ba         |
-| `P_CR_cgs::T`      | cosmic ray pressure in Ba      |
+| Field Name | Meaning |
+|:--- |:--- |
+|`x_cgs::T` | position in cm |
+|`x_physical::T` | position in kpc |
+|`v_cgs::T` | velocity in cm/s |
+|`v_physical::T` | velocity in km/s |
+|`m_cgs::T` | mass in g |
+|`m_msun::T` | mass in Msun |
+|`m_physical::T` | mass in 10^10 Msun |
+|`t_s::T` | time in sec |
+|`t_Myr::T` | time in Myr |
+|`E_cgs::T` | energy in erg |
+|`E_eV::T` | energy in eV |
+|`B_cgs::T` | magnetic field in Gauss |
+|`rho_physical::T` | density in 10^10 Msun/kpc^3 |
+|`rho_cgs::T` | density in ``g/cm^3`` |
+|`rho_ncm3::T` | density in ``n_p/cm^3`` |
+|`T_K::T` | temperature in K |
+|`T_eV::T` | temperature in eV |
+|`P_th_cgs::T` | thermal pressure in Ba |
+|`P_CR_cgs::T` | cosmic ray pressure in Ba |
 
 To convert, say positions of gas particles from a cosmological simulation to physical units you can use:
 
