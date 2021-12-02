@@ -12,6 +12,7 @@ end
 ## Cosmology
 
 To define an `AbstractCosmology` from the properties of the simulation you can use the multiple dispatch function
+
 ```@docs
 cosmology
 ```
@@ -28,18 +29,21 @@ If the optional parameter `units` is set to `true` it will preserve the unit pro
 
 ## Scale
 
-You can convert arcminutes to kpc for an object at redshift `z` with [`armin_to_kpc`](@ref).
-This can be used either with a pre-defined `Cosmology.AbstractCosmology` or can use a `AbstractGadgetHeader` struct from [`GadgetIO.jl`](https://github.com/LudwigBoess/GadgetIO.jl) which defines the `AbstractCosmology` on the fly
+You can convert arcminutes to kpc for an object at redshift `z` with [`arcmin_to_kpc`](@ref).
+This can be used either with a pre-defined `Cosmology.AbstractCosmology` or can use a `AbstractGadgetHeader` struct from [`GadgetIO.jl`](https://github.com/LudwigBoess/GadgetIO.jl) which defines the `AbstractCosmology` on the fly.
+If you input `θ::Real` the function will return `kpc`, but remove the unit property.
+Optionally you can define `θ::Unitful.AbstractQuantity` which preserves the unit property.
+
 ```@docs
 arcmin_to_kpc
 ```
-If you input `θ::Real` the function will return `kpc`, but remove the unit property.
-Optionally you can define `θ::Unitful.AbstractQuantity` which preserves the unit property.
+
 
 ## Radiation
 
 To convert synchrotron radiation from `mJy` to `W/Hz` you can use [`mJy_to_W`](@ref).
-Like in the case of [`Scale`](@ref) you can use either a pre-defined `AbstractCosmology` or use an `AbstractGadgetHeader`
+Like in the case of [`Scale`](@ref) you can use either a pre-defined `AbstractCosmology` or use an `AbstractGadgetHeader`.
+
 ```@docs
 mJy_to_W
 ```
