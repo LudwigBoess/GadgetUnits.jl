@@ -94,6 +94,7 @@ function GadgetPhysicalUnits(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::
     t_s     = t_unit * sqrt(a_scale) / hpar  # in sec
     t_Myr   = t_s |> u"Myr"
 
+    E_unit = m_unit * v_unit^2
     E_cgs = m_cgs * v_cgs^2 |> u"erg"
     E_eV = E_cgs |> u"eV"
 
@@ -118,8 +119,8 @@ function GadgetPhysicalUnits(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::
     T_cgs = (γ_th - 1.0) * v_unit^2 * 1.0u"mp" * mean_mol_weight / 1.0u"k" |> u"K"
     T_eV  = T_cgs * 1.0u"k" |> u"eV"
 
-    P_th_cgs = a_scale^(-3) * E_cgs / l_unit^3 * hpar^2  |> u"erg/cm^3"
-    P_CR_cgs = a_scale^(-4) * E_cgs / l_unit^3 * hpar^2  |> u"erg/cm^3"
+    P_th_cgs = a_scale^(-3) * E_unit / l_unit^3 * hpar^2  |> u"erg/cm^3"
+    P_CR_cgs = a_scale^(-4) * E_unit / l_unit^3 * hpar^2  |> u"erg/cm^3"
 
     GadgetPhysicalUnits{T}(x_cgs, x_physical,
         v_cgs, v_physical,
