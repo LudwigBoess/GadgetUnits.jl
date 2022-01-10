@@ -151,3 +151,30 @@ GadgetPhysicalUnits( DT::DataType,
     GadgetPhysicalUnits(DT(l_unit), DT(m_unit), DT(v_unit),
                         a_scale=DT(a_scale), hpar=DT(hpar), 
                         γ_th=DT(γ_th), γ_CR=DT(γ_CR), xH=DT(xH))
+
+
+
+"""
+    GadgetPhysical( h::SnapshotHeader, 
+                    l_unit::Real=3.085678e21, m_unit::Real=1.989e43, v_unit::Real=1.e5;
+                    cosmological::Bool=true,
+                    γ_th::Real=5.0/3.0, γ_CR::Real=4.0/3.0, xH::Real=0.76)
+
+Set up a unit struct with a given `SnapshotHeader`. If `cosmological` is set to true it uses the scale factor output from the simulation, otherwise it's set to `a_scale = 1.0`.
+Only works in 64-bits.
+"""
+function GadgetPhysicalUnits( h::SnapshotHeader, 
+                            l_unit::Real=3.085678e21, m_unit::Real=1.989e43, v_unit::Real=1.e5;
+                            cosmological::Bool=true,
+                            γ_th::Real=5.0/3.0, γ_CR::Real=4.0/3.0, xH::Real=0.76)
+
+    if cosmological
+        a_scale = h.time
+    else
+        a_scale = 1.0
+    end
+
+    GadgetPhysicalUnits( l_unit, m_unit, v_unit,
+                a_scale=a_scale, hpar=h.h0, 
+                γ_th=γ_th, γ_CR=γ_CR, xH=xH )
+end
