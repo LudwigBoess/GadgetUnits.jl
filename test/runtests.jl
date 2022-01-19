@@ -22,15 +22,17 @@ Downloads.download("http://www.usm.uni-muenchen.de/~lboess/GadgetIO/snap_144.0",
 
             @testset "SnapshotHeader" begin
                 h = read_header("snap_144.0")
-                h.z = 0.5
+                #h.h0 = 1.0
 
                 @testset "cosmo" begin
+                    h.z  = 0.5
                     GU = GadgetPhysicalUnits(h)
-                    @test GU.x_cgs ≈ 4.38306534090909e21u"cm"
+                    @test GU.x_cgs ≈ 2.9220435606060605e21u"cm"
                 end
 
                 @testset "no cosmo" begin
-                    GU = GadgetPhysicalUnits(h, cosmological=false)
+                    h.z  = 0.0
+                    GU = GadgetPhysicalUnits(h)
                     @test GU.t_s        ≈ 4.383065340909091e16u"s"
                 end
                 
@@ -56,15 +58,17 @@ Downloads.download("http://www.usm.uni-muenchen.de/~lboess/GadgetIO/snap_144.0",
 
             @testset "SnapshotHeader" begin
                 h = read_header("snap_144.0")
-                h.z = 0.5
+                #h.h0 = 1.0
 
                 @testset "cosmo" begin
+                    h.z = 0.5
                     GU = GadgetPhysical(h)
-                    @test GU.x_cgs ≈ 4.38306534090909e21
+                    @test GU.x_cgs ≈ 2.9220435606060605e21
                 end
 
                 @testset "no cosmo" begin
-                    GU = GadgetPhysical(h, cosmological=false)
+                    h.z = 0.0
+                    GU = GadgetPhysical(h)
                     @test GU.t_s        ≈ 4.383065340909091e16
                 end
                 
