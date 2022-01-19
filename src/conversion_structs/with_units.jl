@@ -29,7 +29,7 @@ struct GadgetPhysicalUnits{T}
     P_th_cgs::Quantity{T}      # thermal pressure in Ba
     P_CR_cgs::Quantity{T}      # cosmic ray pressure in Ba
 
-    
+    CR_norm::Quantity{T}       # LMB_SPECTRAL_CRs Norm in cgs units
 end
 
 
@@ -68,7 +68,7 @@ Stores the unit information which can be converted with Unitful or UnitfulAstro.
 | `T_eV::Quantity{T}`          | temperature in eV              |
 | `P_th_cgs::Quantity{T}`      | thermal pressure in Ba         |
 | `P_CR_cgs::Quantity{T}`      | cosmic ray pressure in Ba      |
-
+| `CR_norm::Quantity{T}`       | LMB_SPECTRAL_CRs Norm in cgs units |
 """
 function GadgetPhysicalUnits(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::T=1.e5;
                             a_scale::T=1.0, hpar::T=1.0,
@@ -122,6 +122,8 @@ function GadgetPhysicalUnits(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::
     P_th_cgs = a_scale^(-3) * E_unit / l_unit^3 * hpar^2  |> u"erg/cm^3"
     P_CR_cgs = a_scale^(-4) * E_unit / l_unit^3 * hpar^2  |> u"erg/cm^3"
 
+    CR_norm  = 1.0u"c0" / (E_unit / l_unit^3 * hpar^2 ) |> upreferred
+
     GadgetPhysicalUnits{T}(x_cgs, x_physical,
         v_cgs, v_physical,
         m_cgs, m_msun, m_physical,
@@ -131,7 +133,8 @@ function GadgetPhysicalUnits(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::
         rho_physical, rho_cgs, rho_ncm3,
         T_cgs, T_eV,
         P_th_cgs,
-        P_CR_cgs
+        P_CR_cgs,
+        CR_norm
         )
 
 end
