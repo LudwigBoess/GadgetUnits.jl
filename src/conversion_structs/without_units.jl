@@ -27,6 +27,8 @@ struct GadgetPhysical{T}
 
     P_th_cgs::T      # thermal pressure in Ba
     P_CR_cgs::T      # cosmic ray pressure in Ba
+
+    CR_norm::T       # LMB_SPECTRAL_CRs Norm in cgs units
 end
 
 """
@@ -67,6 +69,7 @@ Keyword arugments specify:
 |`T_eV::T` | temperature in eV |
 |`P_th_cgs::T` | thermal pressure in Ba |
 |`P_CR_cgs::T` | cosmic ray pressure in Ba |
+|`CR_norm::T` | LMB_SPECTRAL_CRs Norm in cgs units |
 
 """
 function GadgetPhysical(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::T=1.e5;
@@ -77,6 +80,7 @@ function GadgetPhysical(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::T=1.e
     kB      = 1.38066e-16
     mp      = 1.6726e-24
     eV2cgs  = 1.602e-12
+    c_light = 2.9979e10
 
     yhelium = ( 1.0 - xH ) / ( 4.0 * xH )
     mean_mol_weight = (1.0 + 4.0 * yhelium) / (1.0 + 3.0 * yhelium + 1.0)
@@ -116,6 +120,8 @@ function GadgetPhysical(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::T=1.e
     P_th_cgs = a_scale^(-3) * E_unit / l_unit^3 * hpar^2
     P_CR_cgs = a_scale^(-4) * E_unit / l_unit^3 * hpar^2
 
+    CR_norm  = c_light / (E_unit / l_unit^3 * hpar^2)
+
     GadgetPhysical{T}(x_cgs, x_physical,
         v_cgs, v_physical,
         m_cgs, m_cgs/T(1.989e33), m_physical,
@@ -125,7 +131,8 @@ function GadgetPhysical(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::T=1.e
         rho_physical, rho_cgs, rho_ncm3,
         T_cgs, T_eV,
         P_th_cgs,
-        P_CR_cgs
+        P_CR_cgs,
+        CR_norm
         )
 
 end
