@@ -1,10 +1,15 @@
-| **Documentation**                                                 | **Build Status**                                                                                | **License**                                                                                |
-|:-----------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:| :-----------------------------------------------------------------------------------------------:|
-[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://LudwigBoess.github.io/GadgetUnits.jl/stable) [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://LudwigBoess.github.io/GadgetUnits.jl/dev) | [![Run CI on master](https://github.com/LudwigBoess/GadgetUnits.jl/actions/workflows/jlpkgbutler-ci-master-workflow.yml/badge.svg)](https://github.com/LudwigBoess/GadgetUnits.jl/actions/workflows/jlpkgbutler-ci-master-workflow.yml) [![codecov.io](https://codecov.io/gh/LudwigBoess/GadgetUnits.jl/coverage.svg?branch=master)](https://codecov.io/gh/LudwigBoess/GadgetUnits.jl?branch=master) | [![The MIT License](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE.md) |
+| **Documentation**                                                 | **Build Status**                                                                                | **License**                                                                                | **Citation**
+|:-----------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:| :-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|
+[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://LudwigBoess.github.io/GadgetUnits.jl/stable) [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://LudwigBoess.github.io/GadgetUnits.jl/dev) | [![Run CI on master](https://github.com/LudwigBoess/GadgetUnits.jl/actions/workflows/jlpkgbutler-ci-master-workflow.yml/badge.svg)](https://github.com/LudwigBoess/GadgetUnits.jl/actions/workflows/jlpkgbutler-ci-master-workflow.yml) [![codecov.io](https://codecov.io/gh/LudwigBoess/GadgetUnits.jl/coverage.svg?branch=master)](https://codecov.io/gh/LudwigBoess/GadgetUnits.jl?branch=master) | [![The MIT License](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE.md) | [![DOI](https://zenodo.org/badge/277262050.svg)](https://zenodo.org/badge/latestdoi/277262050) |
 
 # GadgetUnits.jl
 
-This package is a subproject of [GadJet.jl](https://github.com/LudwigBoess/GadJet.jl) and provides some basic unit conversion functionality to work with the SPH code [Gadget2](https://wwwmpa.mpa-garching.mpg.de/gadget/) by Volker Springel. It is based on the unit conversions listed by [Klaus Dolag](https://www.usm.uni-muenchen.de/~dolag/) on his HowTo page (restricted).
+This package provides some basic unit conversion functionality to work with the SPH code [Gadget2](https://wwwmpa.mpa-garching.mpg.de/gadget/) by Volker Springel.
+It is based on the unit conversions listed by [Klaus Dolag](https://www.usm.uni-muenchen.de/~dolag/) on his HowTo page (restricted).
+Further functionality provides tools for cosmological simulations.
+
+If you use `GadgetUnits.jl` in publications please [cite](https://zenodo.org/badge/latestdoi/277262050) it.
+
 
 Unit Conversion
 ===============
