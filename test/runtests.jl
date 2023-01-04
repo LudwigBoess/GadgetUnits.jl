@@ -110,15 +110,15 @@ Downloads.download("http://www.usm.uni-muenchen.de/~lboess/GadgetIO/snap_144.0",
         end
 
         @testset "Time" begin
-            @test age(h)        ≈ 8.69582554048774u"Gyr"
-            @test age(h, false) ≈ 8.69582554048774
+            @test age(h)        ≈ 8.695631863096718u"Gyr"
+            @test age(h, false) ≈ 8.695631863096718
 
-            @test redshift(8.69582554048774u"Gyr", h) ≈ 0.5
-            @test redshift(8.69582554048774, h)       ≈ 0.5
+            @test redshift(8.695631863096718u"Gyr", h) ≈ 0.5
+            @test redshift(8.695631863096718, h)       ≈ 0.5
 
             c = cosmology(h)
-            @test redshift(8.69582554048774u"Gyr", c) ≈ 0.5
-            @test redshift(8.69582554048774, c)       ≈ 0.5
+            @test redshift(8.695631863096718u"Gyr", c) ≈ 0.5
+            @test redshift(8.695631863096718, c)       ≈ 0.5
         end
     end
 
