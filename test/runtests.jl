@@ -1,8 +1,17 @@
-using GadgetUnits, GadgetIO, Test, Unitful, UnitfulAstro, Downloads, Cosmology
+using GadgetUnits, GadgetIO, Test, Unitful, UnitfulAstro, Cosmology
 
-Downloads.download("http://www.usm.uni-muenchen.de/~lboess/GadgetIO/snap_144.0", "./snap_144.0")
 
 @testset "GadgetUnits" begin 
+
+    # define header here
+    h = SnapshotHeader(Int32[13933641, 14181938, 0, 0, 0, 0],
+        [0.0, 0.031006304312377084, 0.0, 0.0, 0.0, 0.0],
+        0.999000004986117, 0.5, Int32(0), Int32(0),
+        UInt32[0xc0000000, 0xc0000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000],
+        Int32(0), Int32(2048), 500000.0, 0.307115, 0.692885, 0.6777, Int32(0), Int32(0),
+        UInt32[0x00000006, 0x00000006, 0x00000000, 0x00000000, 0x00000000, 0x00000000],
+        Int32(0), Int32(0), Int32(3), 0.0f0,
+        Int32[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 
     @testset "Unit Structs" begin
 
@@ -21,19 +30,17 @@ Downloads.download("http://www.usm.uni-muenchen.de/~lboess/GadgetIO/snap_144.0",
             end
 
             @testset "SnapshotHeader" begin
-                h = read_header("snap_144.0")
-                #h.h0 = 1.0
 
                 @testset "cosmo" begin
                     h.z  = 0.5
                     GU = GadgetPhysicalUnits(h)
-                    @test GU.x_cgs ≈ 2.9220435606060605e21u"cm"
+                    @test GU.x_cgs ≈ 3.0354414441001423e21u"cm"
                 end
 
                 @testset "no cosmo" begin
                     h.z  = 0.0
                     GU = GadgetPhysicalUnits(h)
-                    @test GU.t_s        ≈ 4.383065340909091e16u"s"
+                    @test GU.t_s ≈ 4.553162166150214e16u"s"
                 end
                 
             end
@@ -57,19 +64,17 @@ Downloads.download("http://www.usm.uni-muenchen.de/~lboess/GadgetIO/snap_144.0",
             end
 
             @testset "SnapshotHeader" begin
-                h = read_header("snap_144.0")
-                #h.h0 = 1.0
 
                 @testset "cosmo" begin
                     h.z = 0.5
                     GU = GadgetPhysical(h)
-                    @test GU.x_cgs ≈ 2.9220435606060605e21
+                    @test GU.x_cgs ≈ 3.0354414441001423e21
                 end
 
                 @testset "no cosmo" begin
                     h.z = 0.0
                     GU = GadgetPhysical(h)
-                    @test GU.t_s        ≈ 4.383065340909091e16
+                    @test GU.t_s        ≈ 4.553162166150214e16
                 end
                 
             end
@@ -79,7 +84,6 @@ Downloads.download("http://www.usm.uni-muenchen.de/~lboess/GadgetIO/snap_144.0",
 
     @testset "Cosmology" begin
         
-        h = read_header("snap_144.0")
         h.z = 0.5
         
         @testset "Setup" begin
@@ -93,35 +97,33 @@ Downloads.download("http://www.usm.uni-muenchen.de/~lboess/GadgetIO/snap_144.0",
             c = cosmology(h)
 
             # tested against script by Klaus Dolag
-            @test arcmin_to_kpc(1.0, h)                  ≈ 367.7593389798557
-            @test arcmin_to_kpc(c, 1.0, h.z)             ≈ 367.7593389798557
-            @test arcmin_to_kpc(1.0u"arcminute", h)      ≈ 367.7593389798557u"kpc"
-            @test arcmin_to_kpc(c, 1.0u"arcminute", h.z) ≈ 367.7593389798557u"kpc"
+            @test arcmin_to_kpc(1.0, h)                  ≈ 377.3573133756037
+            @test arcmin_to_kpc(c, 1.0, h.z)             ≈ 377.3573133756037
+            @test arcmin_to_kpc(1.0u"arcminute", h)      ≈ 377.3573133756037u"kpc"
+            @test arcmin_to_kpc(c, 1.0u"arcminute", h.z) ≈ 377.3573133756037u"kpc"
         end
 
         @testset "Radiation" begin
             c = cosmology(h)
 
             # tested against script by Klaus Dolag
-            @test mJy_to_W(1.0, h)            ≈ 9.681690084092813e23
-            @test mJy_to_W(c, 1.0, h.z)       ≈ 9.681690084092813e23
-            @test mJy_to_W(1.0u"mJy", h)      ≈ 9.681690084092813e23u"W/Hz"
-            @test mJy_to_W(c, 1.0u"mJy", h.z) ≈ 9.681690084092813e23u"W/Hz"
+            @test mJy_to_W(1.0, h)            ≈ 1.0193640161171312e24
+            @test mJy_to_W(c, 1.0, h.z)       ≈ 1.0193640161171312e24
+            @test mJy_to_W(1.0u"mJy", h)      ≈ 1.0193640161171312e24u"W/Hz"
+            @test mJy_to_W(c, 1.0u"mJy", h.z) ≈ 1.0193640161171312e24u"W/Hz"
         end
 
         @testset "Time" begin
-            @test age(h)        ≈ 8.695631863096718u"Gyr"
-            @test age(h, false) ≈ 8.695631863096718
+            @test age(h)        ≈ 8.61908274173147u"Gyr"
+            @test age(h, false) ≈ 8.61908274173147
 
-            @test redshift(8.695631863096718u"Gyr", h) ≈ 0.5
-            @test redshift(8.695631863096718, h)       ≈ 0.5
+            @test redshift(8.61908274173147u"Gyr", h) ≈ 0.5
+            @test redshift(8.61908274173147, h)       ≈ 0.5
 
             c = cosmology(h)
-            @test redshift(8.695631863096718u"Gyr", c) ≈ 0.5
-            @test redshift(8.695631863096718, c)       ≈ 0.5
+            @test redshift(8.61908274173147u"Gyr", c) ≈ 0.5
+            @test redshift(8.61908274173147, c)       ≈ 0.5
         end
     end
 
 end
-
-rm("snap_144.0")
