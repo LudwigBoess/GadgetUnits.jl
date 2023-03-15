@@ -29,4 +29,25 @@ Converts synchrotron flux density `S` in `[mJy]` to `[W/Hz]` for a given redshif
 """
 mJy_to_W(S::Union{Real, Unitful.AbstractQuantity}, h::AbstractGadgetHeader) = mJy_to_W( cosmology(h), S, h.z )
 
+"""
+    mJy_to_W(S::Union{Real,Unitful.AbstractQuantity}, d::Unitful.AbstractQuantity)
+
+Converts synchrotron flux density `S` in `[mJy]` to `[W/Hz]` for a given distance `d`.
+"""
+mJy_to_W(S::Unitful.AbstractQuantity, d::Unitful.AbstractQuantity) = S * 4π * d^2 |> u"W/Hz"
+
+"""
+    mJy_to_W(S::Union{Real,Unitful.AbstractQuantity}, d::Real)
+
+Converts synchrotron flux density `S` in `[mJy]` to `[W/Hz]` for a given distance `d` in `[Mpc]`.
+"""
+mJy_to_W(S::Real, d::Real) = mJy_to_W(S * 1.0u"mJy", d * 1.0u"Mpc") |> ustrip
+
+"""
+    mJy_to_W(S::Union{Real,Unitful.AbstractQuantity}, d::Real)
+
+Converts synchrotron flux density `S` in `[mJy]` to `[W/Hz]` for a given distance `d` in `[Mpc]`.
+"""
+mJy_to_W(S::Unitful.AbstractQuantity, d::Real) = mJy_to_W(S, d * 1.0u"Mpc") |> ustrip
+
 
