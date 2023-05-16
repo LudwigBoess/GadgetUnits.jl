@@ -1,12 +1,13 @@
-import Cosmology.age 
+import Cosmology.age
+import Cosmology.lookback_time
 using Roots
 
 """
-    age(h::AbstractGadgetHeader)
+    age(h::AbstractGadgetHeader, units::Bool=false)
 
 Computes the age of the universe given the properties from `AbstractGadgetHeader`.
 """
-function age(h::AbstractGadgetHeader, units::Bool=true)
+function age(h::AbstractGadgetHeader, units::Bool=false)
     
     c = cosmology(h)
     t = age(c, h.z)
@@ -17,6 +18,24 @@ function age(h::AbstractGadgetHeader, units::Bool=true)
         return t |> ustrip
     end
 end
+
+"""
+    lookback_time(h::AbstractGadgetHeader, units::Bool=false)
+
+Computes the lookback tima given the properties from `AbstractGadgetHeader`.
+"""
+function lookback_time(h::AbstractGadgetHeader, units::Bool=false)
+
+    c = cosmology(h)
+    t = lookback_time(c, h.z)
+
+    if units
+        return t
+    else
+        return t |> ustrip
+    end
+end
+
 
 
 """

@@ -15,7 +15,7 @@ module GadgetUnits
     export GadgetPhysical,
            GadgetPhysicalUnits,
            cosmology, 
-           age, redshift,
+           age, lookback_time, redshift,
            arcmin_to_kpc,
            mJy_to_W
 
@@ -48,6 +48,7 @@ module GadgetUnits
             # cosmology 
             c = cosmology(h)
             age(h)
+            lookback_time(h)
             redshift(12.0, h)
             redshift(12.0u"Gyr", h)
 

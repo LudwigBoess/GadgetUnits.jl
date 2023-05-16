@@ -114,13 +114,21 @@ using GadgetUnits, GadgetIO, Test, Unitful, UnitfulAstro, Cosmology
         end
 
         @testset "Time" begin
-            @test age(h)        ≈ 8.61908274173147u"Gyr"
+            c = cosmology(h)
+
+            @test age(h, true)  ≈ 8.61908274173147u"Gyr"
             @test age(h, false) ≈ 8.61908274173147
+            @test age(h, true) ≈ age(c, h.z)
+            # time at z = 0
+            t0 = age(c, 0.0) |> ustrip
+            t1 = age(h, false)
+            @test lookback_time(h) ≈ t0 - t1
+            @test lookback_time(h, true) ≈ (t0 - t1) * 1.0u"Gyr"
+
 
             @test redshift(8.61908274173147u"Gyr", h) ≈ 0.5
             @test redshift(8.61908274173147, h)       ≈ 0.5
 
-            c = cosmology(h)
             @test redshift(8.61908274173147u"Gyr", c) ≈ 0.5
             @test redshift(8.61908274173147, c)       ≈ 0.5
         end
