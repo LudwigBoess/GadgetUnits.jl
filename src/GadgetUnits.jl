@@ -60,6 +60,7 @@ module GadgetUnits
             # radiation
             mJy_to_W(100.0, h)
             mJy_to_W(c, 100.0, 0.5)
+            mJy_to_W(100.0, 0.5)
         end
     end
 
