@@ -105,12 +105,23 @@ using GadgetUnits, GadgetIO, Test, Unitful, UnitfulAstro, Cosmology
 
         @testset "Radiation" begin
             c = cosmology(h)
+            
+            # Luminsity Distance in Mpc
+            dL = luminosity_dist(c, h.z)
 
-            # tested against script by Klaus Dolag
-            @test mJy_to_W(1.0, h)            ≈ 1.0193640161171312e24
-            @test mJy_to_W(c, 1.0, h.z)       ≈ 1.0193640161171312e24
-            @test mJy_to_W(1.0u"mJy", h)      ≈ 1.0193640161171312e24u"W/Hz"
-            @test mJy_to_W(c, 1.0u"mJy", h.z) ≈ 1.0193640161171312e24u"W/Hz"
+            # reference values tested against script by Klaus Dolag
+            @test mJy_to_W(1.0, h)       ≈ 1.0193640161171312e24
+            @test mJy_to_W(1.0u"mJy", h) ≈ 1.0193640161171312e24u"W/Hz"
+
+            # cross-check
+            # without untis
+            @test mJy_to_W(c, 1.0, h.z)           ≈ mJy_to_W(1.0, h)
+            @test mJy_to_W(1.0, ustrip(dL))       ≈ mJy_to_W(1.0, h)
+            @test mJy_to_W(1.0u"mJy", ustrip(dL)) ≈ mJy_to_W(1.0, h)
+
+            # with units
+            @test mJy_to_W(c, 1.0u"mJy", h.z) ≈ mJy_to_W(1.0u"mJy", h)
+            @test mJy_to_W(1.0u"mJy", dL)     ≈ mJy_to_W(1.0u"mJy", h)
         end
 
         @testset "Time" begin
