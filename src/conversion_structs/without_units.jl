@@ -74,7 +74,7 @@ Keyword arugments specify:
 """
 function GadgetPhysical(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::T=1.e5;
                         a_scale::T=1.0, hpar::T=1.0,
-                        γ_th::T=5.0/3.0, γ_CR::T=4.0/3.0, xH::T=0.76) where T
+                        γ_th::T=5.0/3.0, xH::T=0.752) where T
 
     # some basic constants
     kB      = 1.38066e-16
@@ -82,12 +82,9 @@ function GadgetPhysical(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::T=1.e
     eV2cgs  = 1.602e-12
     c_light = 2.9979e10
 
-    yhelium = ( 1.0 - xH ) / ( 4.0 * xH )
-    mean_mol_weight = (1.0 + 4.0 * yhelium) / (1.0 + 3.0 * yhelium + 1.0)
-
-    n2ne =  (  xH + 0.5 * ( 1.0 - xH ) ) / 
-            ( 2.0 * xH + 0.75 * ( 1.0 - xH ) )       # conversion n_pat -> n_electrons
-    umu  =  4.0 / ( 5.0 * xH + 3.0 )                 # mean molucular weight in hydr. mass
+    n2ne =  (  xH + 0.5 * ( 1 - xH ) ) / 
+            ( 2xH + 0.75 * ( 1 - xH ) )     # conversion n_pat -> n_electrons
+    umu  =  4 / ( 5xH + 3 )                 # mean molucular weight in hydr. mass
 
     # convert comoving output to physical units
     x_cgs      = l_unit * a_scale / hpar
@@ -114,7 +111,7 @@ function GadgetPhysical(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::T=1.e
     rho_ncm3     = rho_cgs * n2ne/( umu * mp )
 
 
-    T_cgs = (γ_th - 1.0) * v_unit^2 * mean_mol_weight * mp / kB
+    T_cgs = (γ_th - 1.0) * v_unit^2 * umu * mp / kB
     T_eV  = T_cgs * kB / eV2cgs
 
     P_th_cgs = a_scale^(-3) * E_unit / l_unit^3 * hpar^2
