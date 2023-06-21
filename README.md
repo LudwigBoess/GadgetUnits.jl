@@ -15,7 +15,7 @@ Unit Conversion
 ===============
 
 GadgetUnits.jl uses Unitful.jl and UnitfulAstro.jl to store the unit conversion factors with actual units in place.
-You can convert the internal units of Gadget into cgs units by defining the object `GadgetPhysicalUnits`:
+You can convert the internal units of Gadget into cgs units by defining the struct `GadgetPhysicalUnits`:
 
 ```julia
 GU = GadgetPhysicalUnits(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::T=1.e5;
@@ -30,7 +30,7 @@ where the keyword arguments are:
 - `γ_CR = 4.0/3.0`: Adiabatic index of cosmic ray component.
 - `xH = 0.76`:      Hydrogen fraction of the simulation, if run without chemical model.
 
-This returns an object of type `GadgetPhysicalUnits` with the following properties:
+This returns an struct of type `GadgetPhysicalUnits` with the following properties:
 
 | Field Name | Meaning |
 |:--- |:--- |

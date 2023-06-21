@@ -36,7 +36,7 @@ end
                    a_scale::T=1.0, hpar::T=1.0,
                    γ_th::T=5.0/3.0, xH::T=0.752) where T
 
-Creates a datatype GadgetPhysical which holds the conversion factors between comoving code units and physical units, without unit information.
+Creates a struct `GadgetPhysical` which holds the conversion factors between comoving code units and physical units, without unit information.
 
 Keyword arugments specify:
 # Arguments
@@ -166,6 +166,6 @@ function GadgetPhysical(h::SnapshotHeader,
     a_scale = 1 / ( 1 + h.z )
 
     GadgetPhysical( l_unit, m_unit, v_unit,
-                a_scale=a_scale, hpar=h.h0, 
+                a_scale=a_scale, hpar=h.h0,
                 γ_th=γ_th, xH=xH )
 end

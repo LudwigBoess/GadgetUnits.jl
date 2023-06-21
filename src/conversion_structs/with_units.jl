@@ -37,7 +37,7 @@ end
                         a_scale::T=1.0, hpar::T=1.0,
                         γ_th::T=5.0/3.0, xH::T=0.752) where T
 
-Creates a datatype GadgetPhysicalUnits which holds the conversion factors between comoving code units and physical units.
+Creates a struct `GadgetPhysicalUnits` which holds the conversion factors between comoving code units and physical units.
 Stores the unit information which can be converted with Unitful or UnitfulAstro.
 
 # Keyword Arguments
@@ -54,7 +54,7 @@ Stores the unit information which can be converted with Unitful or UnitfulAstro.
 | `v_cgs::Quantity{T}`         | velocity in cm/s               |
 | `v_physical::Quantity{T}`    | velocity in km/s               |
 | `m_cgs::Quantity{T}`         | mass in g                      |
-| `m_msun::Quantity{T}`        | mass in Msun                   |
+| `m_msun::Quantity{T}`        | mass in solar masses           |
 | `t_s::Quantity{T}`           | time in sec                    |
 | `t_Myr::Quantity{T}`         | time in Myr                    |
 | `E_cgs::Quantity{T}`         | energy in erg                  |
@@ -105,7 +105,7 @@ function GadgetPhysicalUnits(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::
     P_th_cgs = GU.P_th_cgs * 1.0u"erg/cm^3"
     P_CR_cgs = GU.P_CR_cgs * 1.0u"erg/cm^3"
 
-    CR_norm = GU.CR_norm * 1.0u"m^2*s/kg"
+    CR_norm = GU.CR_norm * 1.0u"cm^2*s/g"
 
     GadgetPhysicalUnits{T}(x_cgs, x_physical,
         v_cgs, v_physical,

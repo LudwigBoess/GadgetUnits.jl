@@ -9,14 +9,14 @@ end
 
 
 GadgetUnits.jl uses Unitful.jl and UnitfulAstro.jl to store the unit conversion factors with actual units in place.
-You can convert the internal units of Gadget into cgs units by defining the object [`GadgetPhysicalUnits`](@ref)
+You can convert the internal units of Gadget into cgs units by defining the struct
 
 ```@docs
 GadgetPhysicalUnits
 ```
 
 
-If you want to have the same functionality, but without using `Unitful.jl` you can construct a similar object [`GadgetPhysical`](@ref):
+If you want to have the same functionality, but without using `Unitful.jl` you can construct a similar struct:
 
 ```@docs
 GadgetPhysical
@@ -29,18 +29,13 @@ This uses the same conversions, but leaves out the actual unit properties.
 To convert, say positions of gas particles from a cosmological simulation to physical units you can use:
 
 ```julia
-
 h     = read_header(filename)
-
 pos   = read_snap(filename, "POS", 0)
-
 GU    = GadgetPhysicalUnits(a_scale=h.time, hpar=h.h0)
-
 pos .*= GU.x_cgs
-
 ```
 
-If you have different units than the standard Gadget ones you can call the object cunstructor with different values
+If you have different units than the standard Gadget ones you can call the cunstructor with different values
 
 ```julia
 GU = GadgetPhysicalUnits(your_l_unit, your_m_unit, your_v_unit; kwargs...)
