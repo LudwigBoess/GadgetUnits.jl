@@ -33,18 +33,17 @@ end
 
 """
     GadgetPhysical(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::T=1.e5;
-                a_scale::T=1.0, hpar::T=1.0,
-                γ_th::T=5.0/3.0, γ_CR::T=4.0/3.0, xH::T=0.76) where T
+                   a_scale::T=1.0, hpar::T=1.0,
+                   γ_th::T=5.0/3.0, xH::T=0.752) where T
 
-Creates a datatype GadgetPhysical which holds the conversion factors between comoving code units and physical units, without unit information.
+Creates a struct `GadgetPhysical` which holds the conversion factors between comoving code units and physical units, without unit information.
 
 Keyword arugments specify:
 # Arguments
 - `a_scale::T = 1.0`:  Cosmological scale factor of the simulation. Can be passed with the header `h` as `h.time`.
 - `hpar::T = 1.0`:     Hubble constant as 'little h'. Can be passed with header `h` as `h.h0`.
 - `γ_th::T = 5.0/3.0`: Adiabatic index of gas.
-- `γ_CR::T = 4.0/3.0`: Adiabatic index of cosmic ray component.
-- `xH::T = 0.76`:      Hydrogen fraction of the simulation, if run without chemical model.
+- `xH::T = 0.752`:      Hydrogen fraction of the simulation, if run without chemical model.
 
 # Fields
 
@@ -74,7 +73,7 @@ Keyword arugments specify:
 """
 function GadgetPhysical(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::T=1.e5;
                         a_scale::T=1.0, hpar::T=1.0,
-                        γ_th::T=5.0/3.0, γ_CR::T=4.0/3.0, xH::T=0.76) where T
+                        γ_th::T=5.0/3.0, xH::T=0.752) where T
 
     # some basic constants
     kB      = 1.38066e-16
@@ -82,12 +81,9 @@ function GadgetPhysical(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::T=1.e
     eV2cgs  = 1.602e-12
     c_light = 2.9979e10
 
-    yhelium = ( 1.0 - xH ) / ( 4.0 * xH )
-    mean_mol_weight = (1.0 + 4.0 * yhelium) / (1.0 + 3.0 * yhelium + 1.0)
-
-    n2ne =  (  xH + 0.5 * ( 1.0 - xH ) ) / 
-            ( 2.0 * xH + 0.75 * ( 1.0 - xH ) )       # conversion n_pat -> n_electrons
-    umu  =  4.0 / ( 5.0 * xH + 3.0 )                 # mean molucular weight in hydr. mass
+    n2ne =  (  xH + 0.5 * ( 1 - xH ) ) / 
+            ( 2xH + 0.75 * ( 1 - xH ) )     # conversion n_pat -> n_electrons
+    umu  =  4 / ( 5xH + 3 )                 # mean molucular weight in hydr. mass
 
     # convert comoving output to physical units
     x_cgs      = l_unit * a_scale / hpar
@@ -114,7 +110,7 @@ function GadgetPhysical(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::T=1.e
     rho_ncm3     = rho_cgs * n2ne/( umu * mp )
 
 
-    T_cgs = (γ_th - 1.0) * v_unit^2 * mean_mol_weight * mp / kB
+    T_cgs = (γ_th - 1.0) * v_unit^2 * umu * mp / kB
     T_eV  = T_cgs * kB / eV2cgs
 
     P_th_cgs = a_scale^(-3) * E_unit / l_unit^3 * hpar^2
@@ -142,35 +138,34 @@ end
     GadgetPhysical( DT::DataType, 
                     l_unit::Real=3.085678e21, m_unit::Real=1.989e43, v_unit::Real=1.e5;
                     a_scale::Real=1.0, hpar::Real=1.0,
-                    γ_th::Real=5.0/3.0, γ_CR::Real=4.0/3.0, xH::Real=0.76)
+                    γ_th::Real=5.0/3.0, xH::Real=0.752)
 
 Set up a unit struct with a given `DataType`.
 """
 GadgetPhysical( DT::DataType, 
-                l_unit::Real=3.085678e21, m_unit::Real=1.989e43, v_unit::Real=1.e5;
-                a_scale::Real=1.0, hpar::Real=1.0,
-                γ_th::Real=5.0/3.0, γ_CR::Real=4.0/3.0, xH::Real=0.76) = 
+                l_unit=3.085678e21, m_unit=1.989e43, v_unit=1.e5;
+                a_scale=1.0, hpar=1.0, γ_th=5.0/3.0, xH=0.752)  = 
     GadgetPhysical( DT(l_unit), DT(m_unit), DT(v_unit),
                     a_scale=DT(a_scale), hpar=DT(hpar), 
-                    γ_th=DT(γ_th), γ_CR=DT(γ_CR), xH=DT(xH) )
+                    γ_th=DT(γ_th), xH=DT(xH) )
 
 
 """
     GadgetPhysical( h::SnapshotHeader, 
                     l_unit::Real=3.085678e21, m_unit::Real=1.989e43, v_unit::Real=1.e5;
-                    γ_th::Real=5.0/3.0, γ_CR::Real=4.0/3.0, xH::Real=0.76)
+                    γ_th::Real=5.0/3.0, xH::Real=0.752)
 
 Set up a unit struct with a given `SnapshotHeader`.
 Only works in 64-bits.
 """
-function GadgetPhysical( h::SnapshotHeader, 
-                         l_unit::Real=3.085678e21, m_unit::Real=1.989e43, v_unit::Real=1.e5;
-                         γ_th::Real=5.0/3.0, γ_CR::Real=4.0/3.0, xH::Real=0.76)
+function GadgetPhysical(h::SnapshotHeader, 
+                        l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::T=1.e5;
+                        γ_th::T=5.0 / 3.0, xH::T=0.752) where {T}
 
     # calculate scale factor from header -> if non-cosmo sim: h.z = 0.0 for every snapshot    
     a_scale = 1 / ( 1 + h.z )
 
     GadgetPhysical( l_unit, m_unit, v_unit,
-                a_scale=a_scale, hpar=h.h0, 
-                γ_th=γ_th, γ_CR=γ_CR, xH=xH )
+                a_scale=a_scale, hpar=h.h0,
+                γ_th=γ_th, xH=xH )
 end
