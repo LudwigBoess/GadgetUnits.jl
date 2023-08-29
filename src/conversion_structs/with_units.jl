@@ -92,7 +92,7 @@ function GadgetPhysicalUnits(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::
     E_cgs = GU.E_cgs * 1.0u"erg"
     E_eV = E_cgs |> u"eV"
 
-    B_cgs = 1.0u"Gs"    # gadget outputs in cgs
+    B_cgs = 1.0u"g^(1/2) / cm^(1/2) / s"    # gadget outputs in Gauss
 
     rho_cgs = GU.rho_cgs * 1.0u"g/cm^3"
     rho_physical = rho_cgs |> u"Msun/kpc^3"
@@ -105,7 +105,7 @@ function GadgetPhysicalUnits(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::
     P_th_cgs = GU.P_th_cgs * 1.0u"erg/cm^3"
     P_CR_cgs = GU.P_CR_cgs * 1.0u"erg/cm^3"
 
-    CR_norm = GU.CR_norm * 1.0u"cm^2*s/g"
+    CR_norm = GU.CR_norm * 1.0u"erg/cm^3"
 
     GadgetPhysicalUnits{T}(x_cgs, x_physical,
         v_cgs, v_physical,

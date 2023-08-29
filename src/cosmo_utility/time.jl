@@ -47,7 +47,7 @@ function redshift(t_Gyrs::Real, c::Cosmology.AbstractCosmology)
 
     age_helper(z) = ustrip(age(c, z)) - t_Gyrs
 
-    return find_zero(age_helper, [ Inf , 0.0] )
+    return find_zero(age_helper, 0.0 )
 end
 
 

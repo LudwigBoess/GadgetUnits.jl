@@ -116,7 +116,8 @@ function GadgetPhysical(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::T=1.e
     P_th_cgs = a_scale^(-3) * E_unit / l_unit^3 * hpar^2
     P_CR_cgs = a_scale^(-4) * E_unit / l_unit^3 * hpar^2
 
-    CR_norm  = c_light / (E_unit / l_unit^3 * hpar^2)
+    # implicit: 1/p^3 !
+    CR_norm  = E_unit / l_unit^3 * hpar^2
 
     GadgetPhysical{T}(x_cgs, x_physical,
         v_cgs, v_physical,
