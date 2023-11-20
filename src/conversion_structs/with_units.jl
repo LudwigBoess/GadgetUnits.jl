@@ -78,10 +78,10 @@ function GadgetPhysicalUnits(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::
 
     # convert comoving output to physical units
     x_cgs      = GU.x_cgs * 1.0u"cm"
-    x_physical = GU.x_cgs * 1.0u"kpc"
+    x_physical = GU.x_physical * 1.0u"kpc"
 
     v_cgs      = GU.v_cgs * 1.0u"cm/s"
-    v_physical = GU.v_cgs * 1.0u"km/s"
+    v_physical = GU.v_physical * 1.0u"km/s"
 
     m_cgs      = GU.m_cgs  * 1.0u"g"
     m_msun     = GU.m_msun * 1.0u"Msun"
