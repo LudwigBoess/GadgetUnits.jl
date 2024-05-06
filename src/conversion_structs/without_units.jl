@@ -96,7 +96,7 @@ function GadgetPhysical(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::T=1.e
     m_physical = 1.0 / hpar
 
     t_unit  = l_unit / v_unit
-    t_s     = t_unit * sqrt(a_scale) / hpar  # in sec
+    t_s     = t_unit / hpar  # in sec
     t_Myr   = t_s / 3.15576e13
 
     E_unit = m_unit * v_unit^2
@@ -116,8 +116,9 @@ function GadgetPhysical(l_unit::T=3.085678e21, m_unit::T=1.989e43, v_unit::T=1.e
     P_th_cgs = a_scale^(-3) * E_unit / l_unit^3 * hpar^2
     P_CR_cgs = a_scale^(-4) * E_unit / l_unit^3 * hpar^2
 
+    # Prefactor for CR norm in energy computations
     # implicit: 1/p^3 !
-    CR_norm  = E_unit / l_unit^3 * hpar^2
+    CR_norm  = E_unit / l_unit^3
 
     GadgetPhysical{T}(x_cgs, x_physical,
         v_cgs, v_physical,
