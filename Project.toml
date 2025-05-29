@@ -5,8 +5,6 @@ version = "0.6.1"
 
 [deps]
 Cosmology = "76746363-e552-5dba-9a5a-cef6fa9cc5ab"
-Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
-DocumenterTools = "35a29f4d-8980-5a13-9543-d66fff28ecb8"
 GadgetIO = "826b50da-1eb7-48f3-bd4b-d2350582c309"
 Roots = "f2b01f46-fcfa-551c-844a-d8ac1e96c665"
 PrecompileTools = "aea7be01-6a6a-4083-8856-8a6e6704d82a"
@@ -16,8 +14,6 @@ UnitfulAstro = "6112ee07-acf9-5e0f-b108-d242c714bf9f"
 
 [compat]
 Cosmology = "1"
-Documenter = "0.25, 0.26, 0.27"
-DocumenterTools = "0.1"
 GadgetIO = "0.6, 0.7, 0.8"
 Roots = "1, 2"
 PrecompileTools = "1"
