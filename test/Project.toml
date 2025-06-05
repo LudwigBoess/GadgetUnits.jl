@@ -1,4 +1,5 @@
 [deps]
+Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
 Cosmology = "76746363-e552-5dba-9a5a-cef6fa9cc5ab"
 GadgetIO = "826b50da-1eb7-48f3-bd4b-d2350582c309"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"

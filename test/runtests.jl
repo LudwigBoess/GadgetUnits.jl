@@ -1,4 +1,4 @@
-using GadgetUnits, GadgetIO, Test, Unitful, UnitfulAstro, Cosmology
+using GadgetUnits, GadgetIO, Test, Unitful, UnitfulAstro, Cosmology, Aqua
 
 
 @testset "GadgetUnits" begin 
@@ -143,6 +143,10 @@ using GadgetUnits, GadgetIO, Test, Unitful, UnitfulAstro, Cosmology
             @test redshift(8.61908274173147u"Gyr", c) ≈ 0.5
             @test redshift(8.61908274173147, c)       ≈ 0.5
         end
+    end
+
+    @testset "Aqua.jl (code quality)" begin
+        Aqua.test_all(GadgetUnits, piracies=false, ambiguities = false)
     end
 
 end
